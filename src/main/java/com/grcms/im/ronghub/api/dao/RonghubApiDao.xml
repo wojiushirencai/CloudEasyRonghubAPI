@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.grcms.im.ronghub.api.dao.impl.RonghubApiDaoImpl">
+
+	<!-- MODEL FIELD TYPE -->
+	<resultMap type="com.grcms.im.ronghub.api.domain.RonghubDetail" id="detailType">
+		<id property="id" column="ID"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="token" column="TOKEN"/>
+		<result property="expireDate" column="EXPIRE_DATE"/>
+	</resultMap>
+	
+	<!-- 表名 -->
+	<sql id="infoTable">EC_RONGHUB_API</sql>
+	
+	<!-- 字段列表 -->
+	<sql id="fields">
+		ID,
+		USER_ID,
+		TOKEN,
+		EXPIRE_DATE
+	</sql>
+	
+	<!-- ENTRY TABLE -->
+	<sql id="entryTable">EC_CMS_CONTENT_INFO_ENTRY</sql>
+	
+	<!-- ENTRY FIELD -->
+	<sql id="entryFields">
+		ID,
+		INFO_ID,
+		ENTRY_KEY,
+		ENTRY_VALUE
+	</sql>
+	
+	<!-- entry select -->
+	<select id="findEntry" parameterType="String" resultMap="entryType">
+		SELECT  
+			<include refid="entryFields"/>
+		FROM  
+			<include refid="entryTable"/>
+		WHERE
+			INFO_ID = #{id}
+	</select>
+	
+	<!-- 添加栏目 -->
+	<insert id="insert" parameterType="com.grcms.content.core.domain.CMSInfo">
+	INSERT INTO
+		<include refid="infoTable"/>
+		(
+		<include refid="fields"/>
+		) 
+		VALUES (
+			#{id},
+			#{name},
+			#{templateFile},
+			#{realUri},
+			#{nodeUri},
+			#{groupName},
+			#{createDate},
+			#{updateDate},
+			#{node.id}
+			)
+	</insert>
+	
+	<!-- 添加ENTRY -->
+	<insert id="batchInsertEntry" parameterType="com.grcms.content.core.domain.CMSInfoEntry">
+	INSERT INTO
+		<include refid="entryTable"/>
+		(
+		<include refid="entryFields"/>
+		) 
+		VALUES 
+		<foreach collection="list" item="entry" separator=",">
+		(
+			#{entry.id},
+			#{entry.infoId},
+			#{entry.key},
+			#{entry.value}
+			)
+		</foreach>
+	</insert>
+	
+	<!-- UDPDATE NODE -->
+	<update id="update" parameterType="com.grcms.content.core.domain.CMSInfo">
+		UPDATE 
+			<include refid="infoTable"/>
+		SET
+			NAME = #{name},
+			TEMPLATE_FILE = #{templateFile},
+			URI = #{realUri},
+			GROUP_NAME = #{groupName},
+			CREATE_DATE = #{createDate},
+			UPDATE_DATE = #{updateDate}
+		WHERE
+			ID = #{id} 
+	</update>
+
+	<!-- UPDATE NODE URI -->
+	<update id="updateNodeURI" parameterType="map">
+		UPDATE
+			<include refid="infoTable"/>
+		SET
+			NODE_URI = #{nodeUri}
+		WHERE
+			NODE_ID = #{nodeId}
+	</update>
+	
+	<!-- 删除所有属于NODE的entry -->
+	<delete id="deleteEntryByContentId" parameterType="String">
+	DELETE
+	FROM
+		<include refid="entryTable"/>
+	WHERE
+		INFO_ID = #{id}		
+	</delete>
+	
+	<!-- GET BY NODE ID -->
+	<select id="getByNodeId" parameterType="String" resultMap="infoType">
+		SELECT  
+			<include refid="fields"/>
+		FROM  
+			<include refid="infoTable"/>
+		WHERE
+			NODE_ID = #{id}
+		ORDER BY 
+			CREATE_DATE DESC
+	</select>
+
+	<!-- GET BY NODE ID AND URI-->
+	<select id="getByNodeURIAndRealURI" parameterType="map" resultMap="infoType">
+		SELECT
+			<include refid="fields"/>
+		FROM
+			<include refid="infoTable"/>
+		WHERE
+			NODE_URI = #{nodeURI}
+		AND
+			URI = #{uri}
+	</select>
+	
+	<!-- GET BY NODE ID -->
+	<select id="getByGroupAndNodeId" parameterType="map" resultMap="infoType">
+		SELECT  
+			<include refid="fields"/>
+		FROM  
+			<include refid="infoTable"/>
+		WHERE
+			GROUP_NAME = #{groupName}
+		AND
+			NODE_ID = #{nodeId}
+		ORDER BY 
+			CREATE_DATE
+		DESC
+	</select>
+	
+	<!-- 根据ID查找 -->
+	<select id="getById" parameterType="String" resultMap="infoType">
+		SELECT  
+			<include refid="fields"/>
+		FROM  
+			<include refid="infoTable"/>
+		WHERE
+			ID = #{id}
+	</select>
+	
+	<!-- 根据URI查找 -->
+	<select id="getByUri" parameterType="String" resultMap="infoType">
+		SELECT  
+			<include refid="fields"/>
+		FROM  
+			<include refid="infoTable"/>
+		WHERE
+			URI = #{uri}
+	</select>
+	
+	<!-- count by uri -->
+	<select id="getTotalRecord" resultType="Integer">
+		SELECT  
+			count(id)
+		FROM  
+			<include refid="infoTable"/>
+	</select>
+	
+	<!-- 查找所有 -->
+	<select id="getAll" resultMap="infoType">
+		SELECT  
+			<include refid="fields"/>
+		FROM  
+			<include refid="infoTable"/>
+		ORDER BY 
+			CREATE_DATE
+		DESC
+	</select>
+	
+	<!-- GET BY PAGE -->
+	<select id="getByPage" resultMap="infoType" parameterType="map">
+		SELECT  
+			<include refid="fields"/>
+		FROM  
+			<include refid="infoTable"/>
+		ORDER BY 
+			CREATE_DATE DESC
+		LIMIT #{index},#{pagesize}
+	</select>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="String">
+	DELETE
+	FROM
+		<include refid="infoTable"/>
+	WHERE	
+		ID = #{id}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteByIds" parameterType="String">
+	DELETE
+	FROM
+		<include refid="infoTable"/>
+	WHERE	
+		ID 
+	IN 
+	<foreach collection="array" item="id" open="(" separator="," close=")">
+	#{id}
+	</foreach>
+	</delete>
+</mapper>
