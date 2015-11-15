@@ -23,30 +23,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		TOKEN,
 		EXPIRE_DATE
 	</sql>
-	
-	<!-- ENTRY TABLE -->
-	<sql id="entryTable">EC_CMS_CONTENT_INFO_ENTRY</sql>
-	
-	<!-- ENTRY FIELD -->
-	<sql id="entryFields">
-		ID,
-		INFO_ID,
-		ENTRY_KEY,
-		ENTRY_VALUE
-	</sql>
-	
-	<!-- entry select -->
-	<select id="findEntry" parameterType="String" resultMap="entryType">
-		SELECT  
-			<include refid="entryFields"/>
-		FROM  
-			<include refid="entryTable"/>
-		WHERE
-			INFO_ID = #{id}
-	</select>
-	
-	<!-- 添加栏目 -->
-	<insert id="insert" parameterType="com.grcms.content.core.domain.CMSInfo">
+
+	<!-- INSERT -->
+	<insert id="insert" parameterType="com.grcms.im.ronghub.api.domain.RonghubDetail">
 	INSERT INTO
 		<include refid="infoTable"/>
 		(
@@ -54,110 +33,26 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		) 
 		VALUES (
 			#{id},
-			#{name},
-			#{templateFile},
-			#{realUri},
-			#{nodeUri},
-			#{groupName},
-			#{createDate},
-			#{updateDate},
-			#{node.id}
+			#{userId},
+			#{token},
+			#{expireDate}
 			)
-	</insert>
-	
-	<!-- 添加ENTRY -->
-	<insert id="batchInsertEntry" parameterType="com.grcms.content.core.domain.CMSInfoEntry">
-	INSERT INTO
-		<include refid="entryTable"/>
-		(
-		<include refid="entryFields"/>
-		) 
-		VALUES 
-		<foreach collection="list" item="entry" separator=",">
-		(
-			#{entry.id},
-			#{entry.infoId},
-			#{entry.key},
-			#{entry.value}
-			)
-		</foreach>
 	</insert>
 	
 	<!-- UDPDATE NODE -->
-	<update id="update" parameterType="com.grcms.content.core.domain.CMSInfo">
+	<update id="update" parameterType="com.grcms.im.ronghub.api.domain.RonghubDetail">
 		UPDATE 
 			<include refid="infoTable"/>
 		SET
-			NAME = #{name},
-			TEMPLATE_FILE = #{templateFile},
-			URI = #{realUri},
-			GROUP_NAME = #{groupName},
-			CREATE_DATE = #{createDate},
-			UPDATE_DATE = #{updateDate}
+			USER_ID = #{userId},
+			TOKEN = #{token},
+			EXPIRE_DATE = #{expireDate}
 		WHERE
 			ID = #{id} 
 	</update>
 
-	<!-- UPDATE NODE URI -->
-	<update id="updateNodeURI" parameterType="map">
-		UPDATE
-			<include refid="infoTable"/>
-		SET
-			NODE_URI = #{nodeUri}
-		WHERE
-			NODE_ID = #{nodeId}
-	</update>
-	
-	<!-- 删除所有属于NODE的entry -->
-	<delete id="deleteEntryByContentId" parameterType="String">
-	DELETE
-	FROM
-		<include refid="entryTable"/>
-	WHERE
-		INFO_ID = #{id}		
-	</delete>
-	
-	<!-- GET BY NODE ID -->
-	<select id="getByNodeId" parameterType="String" resultMap="infoType">
-		SELECT  
-			<include refid="fields"/>
-		FROM  
-			<include refid="infoTable"/>
-		WHERE
-			NODE_ID = #{id}
-		ORDER BY 
-			CREATE_DATE DESC
-	</select>
-
-	<!-- GET BY NODE ID AND URI-->
-	<select id="getByNodeURIAndRealURI" parameterType="map" resultMap="infoType">
-		SELECT
-			<include refid="fields"/>
-		FROM
-			<include refid="infoTable"/>
-		WHERE
-			NODE_URI = #{nodeURI}
-		AND
-			URI = #{uri}
-	</select>
-	
-	<!-- GET BY NODE ID -->
-	<select id="getByGroupAndNodeId" parameterType="map" resultMap="infoType">
-		SELECT  
-			<include refid="fields"/>
-		FROM  
-			<include refid="infoTable"/>
-		WHERE
-			GROUP_NAME = #{groupName}
-		AND
-			NODE_ID = #{nodeId}
-		ORDER BY 
-			CREATE_DATE
-		DESC
-	</select>
-	
-	<!-- 根据ID查找 -->
-	<select id="getById" parameterType="String" resultMap="infoType">
+	<!-- GET BY ID -->
+	<select id="getById" parameterType="String" resultMap="detailType">
 		SELECT  
 			<include refid="fields"/>
 		FROM  
@@ -166,14 +61,24 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			ID = #{id}
 	</select>
 	
-	<!-- 根据URI查找 -->
-	<select id="getByUri" parameterType="String" resultMap="infoType">
+	<!-- GET BY USER ID -->
+	<select id="getByUserId" parameterType="String" resultMap="detailType">
 		SELECT  
 			<include refid="fields"/>
 		FROM  
 			<include refid="infoTable"/>
 		WHERE
-			URI = #{uri}
+			USER_ID = #{value}
+	</select>
+
+	<!-- 根据URI查找 -->
+	<select id="getByToken" parameterType="String" resultMap="detailType">
+		SELECT
+		<include refid="fields"/>
+		FROM
+		<include refid="infoTable"/>
+		WHERE
+		TOKEN = #{token}
 	</select>
 	
 	<!-- count by uri -->
@@ -185,7 +90,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 查找所有 -->
-	<select id="getAll" resultMap="infoType">
+	<select id="getAll" resultMap="detailType">
 		SELECT  
 			<include refid="fields"/>
 		FROM  
@@ -196,7 +101,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- GET BY PAGE -->
-	<select id="getByPage" resultMap="infoType" parameterType="map">
+	<select id="getByPage" resultMap="detailType" parameterType="map">
 		SELECT  
 			<include refid="fields"/>
 		FROM  

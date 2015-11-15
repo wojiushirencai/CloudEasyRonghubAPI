@@ -30,6 +30,11 @@
         </dependency>
         <dependency>
             <groupId>com.globalroam.grcms</groupId>
+            <artifactId>grcms-front</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.globalroam.grcms</groupId>
             <artifactId>grcms-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -141,7 +146,27 @@
             <version>${org.springframework.version}</version>
             <!--<scope>test</scope>-->
         </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>grcms-im-ronghub</finalName>
+        <resources>
+            <!--指定将dao.impl包下的xml文件拷贝到对应的输出目录-->
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/java/com/grcms/im/ronghub/api/dao</directory>
+                <targetPath>com/grcms/im/ronghub/api/dao</targetPath>
+                <includes>
+                    <include>*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 
 </project>

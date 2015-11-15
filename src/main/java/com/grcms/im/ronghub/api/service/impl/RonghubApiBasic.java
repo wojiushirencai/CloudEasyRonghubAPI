@@ -1,7 +1,7 @@
 /* 
  * Globalroam 2015 @copyright 
  */
-package com.grcms.im.ronghub.api.dao.impl;
+package com.grcms.im.ronghub.api.service.impl;
 
 import com.grcms.common.util.CommonUtility;
 import com.grcms.core.exception.ECInitException;

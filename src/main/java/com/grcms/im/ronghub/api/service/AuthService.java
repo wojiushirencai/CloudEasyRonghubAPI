@@ -11,11 +11,26 @@ import com.grcms.im.ronghub.api.domain.RonghubDetail;
 public interface AuthService {
     /**
      * Execute authentication
-     * @param userId
      * @param username
-     * @param portraitUri
+     * @param password md5 digest password
      * @return
      * @throws ECAuthException
      */
-    RonghubDetail executeAuth(String userId,String username,String portraitUri) throws ECAuthException;
+    RonghubDetail executeAuth(String username,String password) throws ECAuthException;
+
+    /**
+     * Find by token
+     * @param token
+     * @return
+     * @throws ECAuthException
+     */
+    RonghubDetail findByToken(String token) throws ECAuthException;
+
+    /**
+     * Find by user id
+     * @param userId
+     * @return
+     * @throws ECAuthException
+     */
+    RonghubDetail findByUserId(String userId) throws ECAuthException;
 }

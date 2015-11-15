@@ -16,5 +16,5 @@ public interface AuthDao {
      * @return
      * @throws ECAuthException
      */
-    RonghubDetail callRonghubAuth(String userId,String username,String portraitUri) throws ECAuthException;
+    RonghubDetail getToken(String userId,String username,String portraitUri) throws ECAuthException;
 }
