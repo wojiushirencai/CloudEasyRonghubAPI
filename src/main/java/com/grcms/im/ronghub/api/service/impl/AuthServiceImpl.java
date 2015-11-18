@@ -53,6 +53,10 @@ public class AuthServiceImpl extends RonghubApiBasic implements AuthService {
                 detail = authDao.getToken(member.getId(), member.getLoginId(), null);
                 detail.setId(CommonUtility.generateUUID(true));
                 ronghubApiDao.insert(detail);
+            } else if(!CommonUtility.isNonEmpty(detail.getToken())){
+                RonghubDetail newDetail = authDao.getToken(member.getId(), member.getLoginId(), null);
+                detail.setToken(newDetail.getToken());
+                ronghubApiDao.update(detail);
             }
         } catch (Exception e) {
             logger.warn("API auth failed,message:" + e.getMessage());
