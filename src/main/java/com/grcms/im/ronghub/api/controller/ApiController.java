@@ -76,11 +76,11 @@ public class ApiController {
                 for(RonghubDetail detail : details) {
                     if(contacts.getUserId().equals(detail.getUserId())) {
                         contacts.setToken(detail.getToken());
+                        contactses.add(contacts);
                         break;
                     }
                 }
 
-                contactses.add(contacts);
             }
             res.setResponse(contactses);
 
