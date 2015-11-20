@@ -12,6 +12,7 @@ import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.dao.AuthDao;
 import com.grcms.im.ronghub.api.dao.RonghubApiDao;
 import com.grcms.im.ronghub.api.domain.RonghubDetail;
+import com.grcms.im.ronghub.api.exception.ECRonghubDetailException;
 import com.grcms.im.ronghub.api.service.AuthService;
 import com.grcms.im.ronghub.api.strategy.ApiAuth;
 import com.grcms.management.user.domain.User;
@@ -68,11 +69,21 @@ public class AuthServiceImpl extends RonghubApiBasic implements AuthService {
 
     @Override
     public RonghubDetail findByToken(String token) throws ECAuthException {
-        return null;
+        try {
+            return ronghubApiDao.getByToken(token);
+        } catch (ECRonghubDetailException e) {
+            e.printStackTrace();
+            throw  new ECAuthException(e.getMessage());
+        }
     }
 
     @Override
     public RonghubDetail findByUserId(String userId) throws ECAuthException {
-        return null;
+        try {
+            return ronghubApiDao.getByUserId(userId);
+        } catch (ECRonghubDetailException e) {
+            e.printStackTrace();
+            throw  new ECAuthException(e.getMessage());
+        }
     }
 }
