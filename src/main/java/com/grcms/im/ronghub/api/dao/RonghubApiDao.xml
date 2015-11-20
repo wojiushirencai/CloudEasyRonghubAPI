@@ -95,9 +95,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			<include refid="fields"/>
 		FROM  
 			<include refid="infoTable"/>
-		ORDER BY 
-			CREATE_DATE
-		DESC
 	</select>
 	
 	<!-- GET BY PAGE -->
@@ -106,8 +103,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			<include refid="fields"/>
 		FROM  
 			<include refid="infoTable"/>
-		ORDER BY 
-			CREATE_DATE DESC
 		LIMIT #{index},#{pagesize}
 	</select>
 	

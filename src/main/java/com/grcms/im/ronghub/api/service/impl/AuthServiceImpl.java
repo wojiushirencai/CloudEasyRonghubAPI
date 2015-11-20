@@ -12,6 +12,7 @@ import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.dao.AuthDao;
 import com.grcms.im.ronghub.api.dao.RonghubApiDao;
 import com.grcms.im.ronghub.api.domain.RonghubDetail;
+import com.grcms.im.ronghub.api.exception.ECRonghubDetailException;
 import com.grcms.im.ronghub.api.service.AuthService;
 import com.grcms.im.ronghub.api.strategy.ApiAuth;
 import com.grcms.management.user.domain.User;
@@ -20,6 +21,8 @@ import io.rong.models.FormatType;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author: jiepeng
@@ -68,11 +71,26 @@ public class AuthServiceImpl extends RonghubApiBasic implements AuthService {
 
     @Override
     public RonghubDetail findByToken(String token) throws ECAuthException {
-        return null;
+        try {
+            return ronghubApiDao.getByToken(token);
+        } catch (ECRonghubDetailException e) {
+            e.printStackTrace();
+            throw  new ECAuthException(e.getMessage());
+        }
     }
 
     @Override
     public RonghubDetail findByUserId(String userId) throws ECAuthException {
-        return null;
+        try {
+            return ronghubApiDao.getByUserId(userId);
+        } catch (ECRonghubDetailException e) {
+            e.printStackTrace();
+            throw  new ECAuthException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<RonghubDetail> findAll() throws ECAuthException {
+        return ronghubApiDao.getAll();
     }
 }

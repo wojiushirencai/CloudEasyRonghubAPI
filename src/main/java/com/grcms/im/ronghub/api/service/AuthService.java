@@ -3,6 +3,8 @@ package com.grcms.im.ronghub.api.service;
 import com.grcms.core.exception.ECAuthException;
 import com.grcms.im.ronghub.api.domain.RonghubDetail;
 
+import java.util.List;
+
 /**
  * @Author: jiepeng
  * @Date:2015/11/13 0013
@@ -33,4 +35,11 @@ public interface AuthService {
      * @throws ECAuthException
      */
     RonghubDetail findByUserId(String userId) throws ECAuthException;
+
+    /**
+     * Find all details
+     * @return
+     * @throws ECAuthException
+     */
+    List<RonghubDetail> findAll() throws ECAuthException;
 }
