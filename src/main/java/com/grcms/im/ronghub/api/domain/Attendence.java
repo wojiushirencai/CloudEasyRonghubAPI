@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Attendence {
     private String id; //UUID
-    private Member member;
+    private String memberId;
     private String location; //location information from client
     private String remark;
     private Date updateDate;
@@ -27,12 +27,12 @@ public class Attendence {
         this.id = id;
     }
 
-    public Member getMember() {
-        return member;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public String getLocation() {
