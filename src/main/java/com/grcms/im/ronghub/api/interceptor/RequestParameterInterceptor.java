@@ -33,6 +33,7 @@ public class RequestParameterInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //if request uri is "/api/auth" then direct return true.
         String uri = request.getRequestURI();
+        logger.debug("==> request uri is :" + uri);
         if(uri.endsWith("/api/auth")) {
             return true;
         }
