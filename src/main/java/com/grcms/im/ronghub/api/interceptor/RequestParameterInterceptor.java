@@ -8,6 +8,7 @@ import com.grcms.core.exception.ECAuthException;
 import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.domain.RonghubDetail;
 import com.grcms.im.ronghub.api.service.AuthService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class RequestParameterInterceptor extends HandlerInterceptorAdapter {
+    private static final Logger logger = Logger.getLogger(RequestParameterInterceptor.class);
     @Autowired
     private MemberService memberService;
 
@@ -38,6 +40,8 @@ public class RequestParameterInterceptor extends HandlerInterceptorAdapter {
         //get token and userId from header and check whether these parameters correct.
         String token = request.getHeader("token");
         String userId = request.getHeader("userId");
+
+        logger.debug("==>token:" + token + ",userId:" + userId);
         //if token or userId is empty then throw exceptions;
         if(!CommonUtility.isNonEmpty(token) || !CommonUtility.isNonEmpty(userId)) {
             throw new ECAuthException("Token or userId can not be empty.");
