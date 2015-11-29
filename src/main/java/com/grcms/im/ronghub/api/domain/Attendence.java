@@ -16,8 +16,8 @@ public class Attendence {
     private String memberId;
     private String location; //location information from client
     private String remark;
-    private Date updateDate;
-    private Date updateTime;
+    private String updateDate;
+    private String updateTime;
 
     public String getId() {
         return id;
@@ -51,19 +51,19 @@ public class Attendence {
         this.remark = remark;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 }

@@ -25,36 +25,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class ApiController {
+public class ContactsController {
     /**
      * Logger for this class
      */
     private static final Logger logger = Logger
-            .getLogger(ApiController.class);
+            .getLogger(ContactsController.class);
     private static final String AJAX_REQUEST = "XMLHttpRequest";
 
     @Autowired
     private AuthService authService;
     @Autowired
     private MemberService memberService;
-
-    /**
-     * authentication method
-     *
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public JsonResponse auth(HttpServletRequest request, HttpServletResponse response
-            ,@RequestParam("username") String username
-            ,@RequestParam("password") String password) throws ECAuthException {
-        JsonResponse res = new JsonResponse();
-        RonghubDetail detail = authService.executeAuth(username, password);
-        res.setResponse(detail);
-        return res;
-    }
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public JsonResponse contacts(HttpServletRequest request, HttpServletResponse response) throws ECAuthException {

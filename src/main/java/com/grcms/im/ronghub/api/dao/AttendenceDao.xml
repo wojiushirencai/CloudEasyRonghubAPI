@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.grcms.im.ronghub.api.dao.impl.AttendenceDaoImpl">
+
+    <!-- MODEL FIELD TYPE -->
+    <resultMap type="com.grcms.im.ronghub.api.domain.Attendence" id="attendenceType">
+        <id property="id" column="ID"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="location" column="LOCATION"/>
+        <result property="remark" column="REMARK"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+    </resultMap>
+
+    <!-- 表名 -->
+    <sql id="table">EC_ATTENDENCE</sql>
+
+    <!-- 字段列表 -->
+    <sql id="fields">
+		ID,
+		MEMBER_ID,
+		LOCATION,
+		REMARK,
+		UPDATE_DATE,
+		UPDATE_TIME
+	</sql>
+
+    <!-- INSERT -->
+    <insert id="insert" parameterType="com.grcms.im.ronghub.api.domain.Attendence">
+        INSERT INTO
+        <include refid="table"/>
+        (
+        <include refid="fields"/>
+        )
+        VALUES (
+        #{id},
+        #{memberId},
+        #{location},
+        #{remark},
+        #{updateDate},
+        #{updateTime}
+        )
+    </insert>
+
+    <!-- UDPDATE NODE -->
+    <update id="update" parameterType="com.grcms.im.ronghub.api.domain.Attendence">
+        UPDATE
+        <include refid="table"/>
+        SET
+        MEMBER_ID = #{memberId},
+        LOCATION = #{location},
+        REMARK = #{remark},
+        UPDATE_DATE = #{updateDate},
+        UPDATE_TIME = #{updateTime}
+        WHERE
+        ID = #{id}
+    </update>
+
+    <!-- GET BY ID -->
+    <select id="getById" parameterType="String" resultMap="attendenceType">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="table"/>
+        WHERE
+        ID = #{id}
+    </select>
+
+    <!-- GET BY USER ID -->
+    <select id="getByMemberId" parameterType="String" resultMap="attendenceType">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="table"/>
+        WHERE
+        MEMBER_ID = #{value}
+    </select>
+
+    <!-- count by uri -->
+    <select id="getTotalRecord" resultType="Integer">
+        SELECT
+        count(id)
+        FROM
+        <include refid="table"/>
+    </select>
+
+    <!-- 查找所有 -->
+    <select id="getAll" resultMap="attendenceType">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="table"/>
+    </select>
+
+    <!-- GET BY PAGE -->
+    <select id="getByPage" resultMap="attendenceType" parameterType="map">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="table"/>
+        LIMIT #{index},#{pagesize}
+    </select>
+
+    <!-- GET BY PAGE AND CONDITION-->
+    <select id="getByPageAndCondition" resultMap="attendenceType" parameterType="map">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="table"/>
+        <where>
+            <if test="condition != null and condition.memberId != null">
+                MEMBER_ID = #{condition.memberId}
+            </if>
+            <if test="condition != null and condition.updateDate != null">
+                AND UPDATE_DATE = #{condition.updateDate}
+            </if>
+        </where>
+        LIMIT #{index},#{pagesize}
+    </select>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteById" parameterType="String">
+        DELETE
+        FROM
+        <include refid="table"/>
+        WHERE
+        ID = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds" parameterType="String">
+        DELETE
+        FROM
+        <include refid="table"/>
+        WHERE
+        ID
+        IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

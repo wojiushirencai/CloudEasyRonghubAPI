@@ -6,6 +6,8 @@ import com.grcms.im.ronghub.api.domain.RonghubDetail;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.im.ronghub.api.exception.ECRonghubDetailException;
 
+import java.util.List;
+
 /**
  * @Author: jiepeng
  * @Date:2015/11/13 0013
@@ -14,12 +16,11 @@ import com.grcms.im.ronghub.api.exception.ECRonghubDetailException;
 public interface AttendenceDao extends MybatisBaseDao<Attendence>{
 
     /**
-     * Get by user id
+     * Get by member id
      * @param userId
      * @return
      * @throws ECAttendenceException
      */
-    Attendence getByUserId(String userId) throws ECAttendenceException;
-
+    List<Attendence> getByMemberId(String userId) throws ECAttendenceException;
 
 }
