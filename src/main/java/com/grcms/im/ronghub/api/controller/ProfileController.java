@@ -2,6 +2,7 @@ package com.grcms.im.ronghub.api.controller;
 
 import com.grcms.core.exception.ECAuthException;
 import com.grcms.core.response.JsonResponse;
+import com.grcms.frontend.dao.MemberDao;
 import com.grcms.frontend.domain.Member;
 import com.grcms.frontend.exception.ECMemberException;
 import com.grcms.frontend.service.MemberService;
@@ -38,6 +39,9 @@ public class ProfileController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private MemberDao memberDao;
 
     /**
      * Get member profile
@@ -86,7 +90,7 @@ public class ProfileController {
         JsonResponse res = new JsonResponse();
 
         try {
-            boolean result = memberService.updatePassword(ApiUtil.getRequestUserId(request), oldPassword, newPassword);
+            boolean result = memberDao.updatePassword(ApiUtil.getRequestUserId(request), oldPassword.trim(), newPassword.trim()) > 0;
             if(!result) {
                 throw new ECMemberException("Update password failed,please check the oldPassword");
             }
