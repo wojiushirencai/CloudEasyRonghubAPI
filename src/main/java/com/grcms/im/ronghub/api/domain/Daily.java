@@ -15,8 +15,9 @@ public class Daily {
     private String id; //UUID
     private String title;
     private Date updateTime;
+    private String updateTimeStr;
     private String content;
-    private Member member;
+    private String memberId;
 
     public String getId() {
         return id;
@@ -50,11 +51,19 @@ public class Daily {
         this.content = content;
     }
 
-    public Member getMember() {
-        return member;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getUpdateTimeStr() {
+        return updateTimeStr;
+    }
+
+    public void setUpdateTimeStr(String updateTimeStr) {
+        this.updateTimeStr = updateTimeStr;
     }
 }
