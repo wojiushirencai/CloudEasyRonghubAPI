@@ -3,16 +3,17 @@ package com.grcms.im.ronghub.api.controller;
 import com.grcms.common.util.CommonUtility;
 import com.grcms.core.exception.ECAuthException;
 import com.grcms.core.exception.ECParamsRequiredException;
+import com.grcms.core.form.BasicForm;
 import com.grcms.core.response.JsonResponse;
+import com.grcms.core.util.Page;
 import com.grcms.im.ronghub.api.domain.Attendence;
+import com.grcms.im.ronghub.api.domain.Daily;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.im.ronghub.api.service.AttendenceService;
 import com.grcms.im.ronghub.api.util.ApiUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,18 +36,50 @@ public class AttendenceController {
     @Autowired
     private AttendenceService attendenceService;
 
+    @RequestMapping(value = "/attendence/location", method = RequestMethod.GET)
+    public JsonResponse getLocations(HttpServletRequest request, HttpServletResponse response
+            , @RequestParam(required = false) Integer pageNum
+            , @RequestParam Integer pagesize
+            , @RequestParam(required = false) String updateDate
+            , @RequestParam(required = false) String minTime
+    ) throws ECAuthException, ECParamsRequiredException, ECAttendenceException {
+        JsonResponse res = new JsonResponse();
+        Attendence condition = new Attendence();
+        Page<Attendence> pager = new Page<Attendence>();
+        if(pageNum != null) {
+            pager.setPageNum(pageNum);
+        }
+        pager.setPagesize(pagesize);
+        condition.setMemberId(ApiUtil.getRequestUserId(request));
+        if(!CommonUtility.isNonEmpty(minTime)) {
+            condition.setUpdateDate(updateDate);
+        }
+        if(!CommonUtility.isNonEmpty(updateDate)) {
+            condition.setUpdateTime(minTime);
+        }
+        pager = attendenceService.findPage(pager, condition);
+        res.setResponse(pager);
+        return res;
+    }
+
     @RequestMapping(value = "/attendence/location", method = RequestMethod.POST)
-    public JsonResponse contacts(HttpServletRequest request, HttpServletResponse response
-        ,Attendence attendence) throws ECAuthException, ECParamsRequiredException, ECAttendenceException {
+    public JsonResponse addLocation(HttpServletRequest request, HttpServletResponse response
+            , Attendence attendence) throws ECAuthException, ECParamsRequiredException, ECAttendenceException {
         JsonResponse res = new JsonResponse();
 
-        if(!CommonUtility.isNonEmpty(attendence.getLocation())) {
+        if (!CommonUtility.isNonEmpty(attendence.getLocation())) {
             throw new ECParamsRequiredException("The location parameter can not be empty.");
+        }
+        if (!CommonUtility.isNonEmpty(attendence.getLatitude())) {
+            throw new ECParamsRequiredException("The latitude parameter can not be empty.");
+        }
+        if (!CommonUtility.isNonEmpty(attendence.getLongtitude())) {
+            throw new ECParamsRequiredException("The longtitude parameter can not be empty.");
         }
 
         attendence.setMemberId(ApiUtil.getRequestUserId(request));
         attendence.setUpdateDate(CommonUtility.formateDate(new Date(), "yyyy-MM-dd"));
-        attendence.setUpdateTime(CommonUtility.formateDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
+        attendence.setUpdateTime(CommonUtility.formateDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
         attendenceService.add(attendence);
         return res;
     }

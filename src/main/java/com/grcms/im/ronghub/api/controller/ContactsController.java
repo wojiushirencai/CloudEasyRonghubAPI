@@ -7,6 +7,8 @@ import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.domain.Contacts;
 import com.grcms.im.ronghub.api.domain.RonghubDetail;
 import com.grcms.im.ronghub.api.service.AuthService;
+import com.grcms.management.user.domain.Department;
+import com.grcms.management.user.service.DepartmentService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,8 @@ public class ContactsController {
     private AuthService authService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private DepartmentService departmentService;
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public JsonResponse contacts(HttpServletRequest request, HttpServletResponse response) throws ECAuthException {
@@ -66,6 +70,18 @@ public class ContactsController {
             }
             res.setResponse(contactses);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/contacts/department", method = RequestMethod.GET)
+    public JsonResponse departments(HttpServletRequest request, HttpServletResponse response) throws ECAuthException {
+        JsonResponse res = new JsonResponse();
+        try {
+            List<Department> top = departmentService.getTree();
+            res.setResponse(top);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import com.grcms.core.response.JsonResponse;
 import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.domain.RonghubDetail;
 import com.grcms.im.ronghub.api.service.AuthService;
+import com.grcms.im.ronghub.api.service.impl.RonghubApiBasic;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,7 @@ public class AuthController {
             ,@RequestParam("password") String password) throws ECAuthException {
         JsonResponse res = new JsonResponse();
         RonghubDetail detail = authService.executeAuth(username, password);
+        detail.setAppKey(RonghubApiBasic.getAppKey());
         res.setResponse(detail);
         return res;
     }

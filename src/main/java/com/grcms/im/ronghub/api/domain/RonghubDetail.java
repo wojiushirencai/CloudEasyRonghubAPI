@@ -22,6 +22,7 @@ public class RonghubDetail {
     private String token; //token from ronghub
     @SerializedName("expire_date")
     private Date expireDate; //expire date for token
+    private String appKey; //expire date for token
 
     public RonghubDetail() {}
 
@@ -63,4 +64,11 @@ public class RonghubDetail {
         this.expireDate = expireDate;
     }
 
+    public String getAppKey() {
+        return appKey;
+    }
+
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
+    }
 }

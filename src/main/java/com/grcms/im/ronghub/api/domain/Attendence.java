@@ -18,6 +18,8 @@ public class Attendence {
     private String remark;
     private String updateDate;
     private String updateTime;
+    private String latitude; //纬度
+    private String longtitude; //经度
 
     public String getId() {
         return id;
@@ -65,5 +67,21 @@ public class Attendence {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude;
     }
 }

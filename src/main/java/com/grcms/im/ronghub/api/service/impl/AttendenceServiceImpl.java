@@ -4,6 +4,7 @@ import com.grcms.common.util.CommonUtility;
 import com.grcms.core.util.Page;
 import com.grcms.im.ronghub.api.dao.AttendenceDao;
 import com.grcms.im.ronghub.api.domain.Attendence;
+import com.grcms.im.ronghub.api.domain.Daily;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.im.ronghub.api.service.AttendenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,18 +58,24 @@ public class AttendenceServiceImpl implements AttendenceService {
     }
 
     @Override
-    public Page<Attendence> findPage(Integer pageNum, Integer pagesize) throws ECAttendenceException {
-        Page<Attendence> page = new Page<Attendence>(pageNum,pagesize);
-        List<Attendence> data = attendenceDao.getByPage(page.getOffset(pageNum), pagesize);
-        page.execute(attendenceDao.getTotalRecord(),pageNum,data);
+    public Page<Attendence> findPage(Page<Attendence> page) throws ECAttendenceException {
+        Integer totalRecord = attendenceDao.getTotalRecord();
+        if(null != totalRecord) {
+            page.execute(totalRecord, page.getPageNum(), null);
+            List<Attendence> list = attendenceDao.getByPage(page.getStartIndex(), page.getPagesize());
+            page.setDatas(list);
+        }
         return page;
     }
 
     @Override
-    public Page<Attendence> findPage(Integer pageNum, Integer pagesize, Attendence condition) throws ECAttendenceException {
-        Page<Attendence> page = new Page<Attendence>(pageNum,pagesize);
-        List<Attendence> data = attendenceDao.getByPageAndCondition(page.getOffset(pageNum), pagesize, condition);
-        page.execute(attendenceDao.getTotalRecord(),pageNum,data);
+    public Page<Attendence> findPage(Page<Attendence> page, Attendence condition) throws ECAttendenceException {
+        Integer totalRecord = attendenceDao.getTotalRecordByCondition(condition);
+        if(null != totalRecord) {
+            page.execute(totalRecord, page.getPageNum(), null);
+            List<Attendence> list = attendenceDao.getByPageAndCondition(page.getStartIndex(), page.getPagesize(), condition);
+            page.setDatas(list);
+        }
         return page;
     }
 }

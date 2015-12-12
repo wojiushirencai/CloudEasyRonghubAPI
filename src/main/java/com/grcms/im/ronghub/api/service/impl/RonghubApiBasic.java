@@ -14,8 +14,8 @@ import java.util.Properties;
  * @Description:
  */
 public class RonghubApiBasic {
-    private static String appKey;
-    private static String appSecret;
+    private static final String appKey;
+    private static final String appSecret;
 
     static {
         Properties p = CommonUtility.getPropertyFile("ronghub.properties");
@@ -30,10 +30,10 @@ public class RonghubApiBasic {
         }
     }
 
-    protected String getAppKey() {
+    public static String getAppKey() {
         return appKey;
     }
-    protected String getAppSecret() {
+    public static String getAppSecret() {
         return appSecret;
     }
 }

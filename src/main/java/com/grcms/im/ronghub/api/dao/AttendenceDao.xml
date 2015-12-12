@@ -13,6 +13,8 @@
         <result property="remark" column="REMARK"/>
         <result property="updateDate" column="UPDATE_DATE"/>
         <result property="updateTime" column="UPDATE_TIME"/>
+        <result property="latitude" column="LATITUDE"/>
+        <result property="longtitude" column="LONGTITUDE"/>
     </resultMap>
 
     <!-- 表名 -->
@@ -25,7 +27,9 @@
 		LOCATION,
 		REMARK,
 		UPDATE_DATE,
-		UPDATE_TIME
+		UPDATE_TIME,
+		LATITUDE,
+		LONGTITUDE
 	</sql>
 
     <!-- INSERT -->
@@ -41,7 +45,9 @@
         #{location},
         #{remark},
         #{updateDate},
-        #{updateTime}
+        #{updateTime},
+        #{latitude},
+        #{longtitude}
         )
     </insert>
 
@@ -54,7 +60,9 @@
         LOCATION = #{location},
         REMARK = #{remark},
         UPDATE_DATE = #{updateDate},
-        UPDATE_TIME = #{updateTime}
+        UPDATE_TIME = #{updateTime},
+        LATITUDE = #{latitude},
+        LONGTITUDE = #{longtitude}
         WHERE
         ID = #{id}
     </update>
@@ -104,12 +112,7 @@
         LIMIT #{index},#{pagesize}
     </select>
 
-    <!-- GET BY PAGE AND CONDITION-->
-    <select id="getByPageAndCondition" resultMap="attendenceType" parameterType="map">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+    <sql id="conditons">
         <where>
             <if test="condition != null and condition.memberId != null">
                 MEMBER_ID = #{condition.memberId}
@@ -117,7 +120,27 @@
             <if test="condition != null and condition.updateDate != null">
                 AND UPDATE_DATE = #{condition.updateDate}
             </if>
+            <if test="condition != null and condition.updateTime != null">
+                AND UPDATE_TIME >= #{condition.updateTime}
+            </if>
         </where>
+    </sql>
+
+    <select id="getTotalRecordByCondition" resultType="Integer" parameterType="map">
+        SELECT
+        count(id)
+        FROM
+        <include refid="table"/>
+        <include refid="conditons"/>
+    </select>
+
+    <!-- GET BY PAGE AND CONDITION-->
+    <select id="getByPageAndCondition" resultMap="attendenceType" parameterType="map">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        <include refid="table"/>
+        <include refid="conditons"/>
         LIMIT #{index},#{pagesize}
     </select>
 

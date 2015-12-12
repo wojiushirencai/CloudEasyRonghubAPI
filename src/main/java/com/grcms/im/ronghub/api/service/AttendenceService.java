@@ -66,20 +66,16 @@ public interface AttendenceService {
 
     /**
      * Find by page
-     * @param pageNum
-     * @param pagesize
      * @return
      * @throws ECAttendenceException
      */
-    Page<Attendence> findPage(Integer pageNum,Integer pagesize) throws ECAttendenceException;
+    Page<Attendence> findPage(Page<Attendence> page) throws ECAttendenceException;
 
     /**
      * Find by page
-     * @param pageNum
-     * @param pagesize
      * @param condition
      * @return
      * @throws ECAttendenceException
      */
-    Page<Attendence> findPage(Integer pageNum,Integer pagesize,Attendence condition) throws ECAttendenceException;
+    Page<Attendence> findPage(Page<Attendence> page,Attendence condition) throws ECAttendenceException;
 }
