@@ -80,9 +80,11 @@ public class DailyDirective extends BaseDirective<Daily> {
 			condition.setId(null);
 		}
 		String memberId = FreemarkerTemplateUtility.getStringValueFromParams(params,"userId");
+		Integer departmentId = FreemarkerTemplateUtility.getIntValueFromParams(params, "departmentId");
 		if(pageable) {
 			try {
 				condition.setMemberId(memberId);
+				condition.setDepartmentId(departmentId);
 				pager = dailyService.findPage(pager, condition);
 			} catch (ECDailyException e) {
 				e.printStackTrace();

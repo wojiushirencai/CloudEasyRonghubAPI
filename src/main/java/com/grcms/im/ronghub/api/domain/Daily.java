@@ -18,6 +18,7 @@ public class Daily {
     private String updateTimeStr;
     private String content;
     private String memberId;
+    private Integer departmentId;
 
     public String getId() {
         return id;
@@ -65,5 +66,13 @@ public class Daily {
 
     public void setUpdateTimeStr(String updateTimeStr) {
         this.updateTimeStr = updateTimeStr;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 }

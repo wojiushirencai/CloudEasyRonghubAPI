@@ -1,11 +1,13 @@
 package com.grcms.im.ronghub.api.controller;
 
 import com.grcms.common.util.CommonUtility;
+import com.grcms.content.core.domain.CMSInfo;
 import com.grcms.content.core.exception.ECCMSInfoException;
 import com.grcms.content.core.exception.ECCMSNodeException;
 import com.grcms.core.exception.ECAuthException;
 import com.grcms.core.form.BasicForm;
 import com.grcms.core.response.JsonResponse;
+import com.grcms.core.util.CMSThemeUtil;
 import com.grcms.core.util.ForwardUtility;
 import com.grcms.frontend.domain.Member;
 import com.grcms.frontend.exception.ECMemberException;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -27,7 +30,7 @@ import java.util.Date;
  */
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/management/daily")
 public class DailyBackendController {
     /**
      * Logger for this class
@@ -47,43 +50,47 @@ public class DailyBackendController {
      * @throws ECMemberException
      * @throws ECCMSNodeException
      */
-    @RequestMapping(value = "/daily", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String daily(HttpServletRequest request, HttpServletResponse response
-            , @ModelAttribute("form") BasicForm form
-            , @RequestParam(required = false) String userId
-            , @RequestParam(required = false) String token) throws ECAuthException, ECMemberException, ECCMSNodeException {
-        userId = CommonUtility.isNonEmpty(userId) ? userId : ApiUtil.getRequestUserId(request);
-        token = CommonUtility.isNonEmpty(token) ? token : ApiUtil.getRequestToken(request);
-        if(!CommonUtility.isNonEmpty(userId) || !CommonUtility.isNonEmpty(token)) {
-            return null;
-        }
-        request.setAttribute("userId", userId);
-        request.setAttribute("token", token);
-        return ForwardUtility.forwardThemeView("daily");
+            , @ModelAttribute("form") BasicForm form) throws ECAuthException, ECMemberException, ECCMSNodeException {
+        return ForwardUtility.forwardAdminView("daily/list_daily");
     }
 
-    @RequestMapping(value = "/daily", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String dailyData(HttpServletRequest request, HttpServletResponse response
+            , @ModelAttribute("form") BasicForm form) throws ECAuthException, ECMemberException, ECCMSNodeException {
+        return ForwardUtility.forwardAdminView("daily/data/data_json_daily");
+    }
+
+    @RequestMapping(value = "/view", method = RequestMethod.GET)
+    public String view(HttpServletRequest request, HttpServletResponse response
+            , @ModelAttribute("form") BasicForm form) throws ECAuthException, ECMemberException, ECCMSNodeException {
+        return ForwardUtility.forwardAdminView("daily/data/data_json_daily");
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResponse addDaily(HttpServletRequest request, HttpServletResponse response
-            , @RequestParam String title
-            , @RequestParam String userId
-            , @RequestParam String token
-            , @RequestParam String content
+    public JsonResponse deleteDaily(HttpServletRequest request, HttpServletResponse response
             , @ModelAttribute("form") BasicForm form) throws Exception {
         JsonResponse jres = new JsonResponse();
-        request.setAttribute("userId", userId);
-        request.setAttribute("token", token);
-        Daily daily = new Daily();
-        daily.setMemberId(userId);
-        daily.setContent(content);
-        daily.setTitle(title);
-        daily.setUpdateTime(new Date());
+        String[] ids = request.getParameterValues("id");
+        if (ids == null || ids.length == 0) {
+            jres.setMessage("Id can not be null");
+            return jres;
+        }
 
-        Member member = memberService.findMemberById(userId);
-        daily.setDepartmentId(member.getDepartment().getId());
-        dailyService.add(daily);
-        daily.setUpdateTimeStr(CommonUtility.formateDate(daily.getUpdateTime(), "yyyy-MM-dd HH:mm"));
-        jres.setResponse(daily);
+//        for(String id :ids) {
+//            CMSInfo info = cmsInfoService.findById(id);
+//            if (info.getNode().getInfoOpenStatic()) {
+//                String filepath = CMSThemeUtil.getPathAsLocal(new String[]{
+//                        request.getServletContext().getRealPath(""),
+//                        info.getUri()
+//                });
+//                File file = new File(filepath);
+//                file.delete();
+//            }
+//        }
+//        cmsInfoService.delete(ids);
         return jres;
     }
 
@@ -96,17 +103,6 @@ public class DailyBackendController {
         request.setAttribute("token", ApiUtil.getRequestToken(request));
         return ForwardUtility.forwardThemeView("daily_detail");
     }
-//
-//    @RequestMapping(value = "/daily/add", method = RequestMethod.GET)
-//    public String addDailyView(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("form") BasicForm form
-//            , @RequestParam String userId
-//            , @RequestParam String token
-//    ) throws ECAuthException, ECMemberException, ECCMSNodeException, ECCMSInfoException {
-//        request.setAttribute("userId", userId);
-//        request.setAttribute("token", token);
-//        return ForwardUtility.forwardThemeView("daily_edit");
-//    }
-
 
 }
 

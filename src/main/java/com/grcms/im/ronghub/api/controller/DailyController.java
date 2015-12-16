@@ -7,7 +7,9 @@ import com.grcms.core.exception.ECAuthException;
 import com.grcms.core.form.BasicForm;
 import com.grcms.core.response.JsonResponse;
 import com.grcms.core.util.ForwardUtility;
+import com.grcms.frontend.domain.Member;
 import com.grcms.frontend.exception.ECMemberException;
+import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.domain.Daily;
 import com.grcms.im.ronghub.api.exception.ECDailyException;
 import com.grcms.im.ronghub.api.service.DailyService;
@@ -35,6 +37,8 @@ public class DailyController {
             .getLogger(DailyController.class);
     @Autowired
     private DailyService dailyService;
+    @Autowired
+    private MemberService memberService;
 
     /**
      * @param request
@@ -66,7 +70,7 @@ public class DailyController {
             , @RequestParam String userId
             , @RequestParam String token
             , @RequestParam String content
-            , @ModelAttribute("form") BasicForm form) throws ECAuthException, ECMemberException, ECCMSNodeException, ECCMSInfoException, ECDailyException {
+            , @ModelAttribute("form") BasicForm form) throws Exception {
         JsonResponse jres = new JsonResponse();
         request.setAttribute("userId", userId);
         request.setAttribute("token", token);
@@ -75,6 +79,9 @@ public class DailyController {
         daily.setContent(content);
         daily.setTitle(title);
         daily.setUpdateTime(new Date());
+
+        Member member = memberService.findMemberById(userId);
+        daily.setDepartmentId(member.getDepartment().getId());
         dailyService.add(daily);
         daily.setUpdateTimeStr(CommonUtility.formateDate(daily.getUpdateTime(), "yyyy-MM-dd HH:mm"));
         jres.setResponse(daily);

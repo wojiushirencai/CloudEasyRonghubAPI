@@ -12,6 +12,7 @@
         <result property="updateTime" column="UPDATE_TIME"/>
         <result property="content" column="CONTENT"/>
         <result property="memberId" column="MEMBER_ID"/>
+        <result property="departmentId" column="DEPARTMENT_ID"/>
     </resultMap>
 
     <!-- 表名 -->
@@ -23,7 +24,8 @@
 		TITLE,
 		CONTENT,
 		MEMBER_ID,
-		UPDATE_TIME
+		UPDATE_TIME,
+		DEPARTMENT_ID
 	</sql>
 
     <!-- INSERT -->
@@ -38,7 +40,8 @@
         #{title},
         #{content},
         #{memberId},
-        #{updateTime}
+        #{updateTime},
+        #{departmentId}
         )
     </insert>
 
@@ -101,17 +104,23 @@
         LIMIT #{index},#{pagesize}
     </select>
 
+    <sql id="condition">
+        <where>
+            <if test="condition != null and condition.memberId != null">
+                MEMBER_ID = #{condition.memberId}
+            </if>
+            <if test="condition != null and condition.departmentId != null">
+                DEPARTMENT_ID = #{condition.departmentId}
+            </if>
+        </where>
+    </sql>
     <!-- GET BY PAGE AND CONDITION-->
     <select id="getByPageAndCondition" resultMap="attendenceType" parameterType="map">
         SELECT
         <include refid="fields"/>
         FROM
         <include refid="table"/>
-        <where>
-            <if test="condition != null and condition.memberId != null">
-                MEMBER_ID = #{condition.memberId}
-            </if>
-        </where>
+        <include refid="condition"/>
         ORDER BY
         UPDATE_TIME DESC
         LIMIT #{index},#{pagesize}
@@ -122,11 +131,7 @@
         count(id)
         FROM
         <include refid="table"/>
-        <where>
-            <if test="condition != null and condition.memberId != null">
-                MEMBER_ID = #{condition.memberId}
-            </if>
-        </where>
+        <include refid="condition"/>
     </select>
 
     <!-- 根据ID删除 -->
