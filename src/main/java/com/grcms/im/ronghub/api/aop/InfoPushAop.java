@@ -24,7 +24,7 @@ public class InfoPushAop {
             Object obj = jres.getResponse();
             if(obj instanceof CMSInfo) {
                 CMSInfo info = (CMSInfo) obj;
-                logger.debug("==> Prepare to push info :title=" + info.getName() + ",content=" + info.getFields().get("content"));
+                logger.debug("==> Prepare to push info :title=" + info.getName());
             }
         }
     }
