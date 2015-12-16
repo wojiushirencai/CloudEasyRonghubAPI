@@ -125,7 +125,7 @@
                 AND UPDATE_DATE = #{condition.updateDate}
             </if>
             <if test="condition != null and condition.updateTime != null">
-                AND UPDATE_TIME >= #{condition.updateTime}
+                AND UPDATE_TIME > #{condition.updateTime}
             </if>
         </where>
     </sql>
