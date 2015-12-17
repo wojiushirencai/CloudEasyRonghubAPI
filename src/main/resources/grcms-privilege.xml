@@ -1,0 +1,15 @@
+
+<privilege-config>
+	<privilege>
+		<name>日报列表</name>
+		<url>/management/daily</url>
+	</privilege>
+	<privilege>
+		<name>查看日报</name>
+		<url>/management/daily/view</url>
+	</privilege>
+	<privilege>
+		<name>删除日报</name>
+		<url>/management/daily/delete</url>
+	</privilege>
+</privilege-config>
