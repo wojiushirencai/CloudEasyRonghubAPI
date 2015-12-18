@@ -7,6 +7,7 @@ import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.domain.Contacts;
 import com.grcms.im.ronghub.api.domain.RonghubDetail;
 import com.grcms.im.ronghub.api.service.AuthService;
+import com.grcms.im.ronghub.api.service.ContactsService;
 import com.grcms.management.user.domain.Department;
 import com.grcms.management.user.service.DepartmentService;
 import org.apache.log4j.Logger;
@@ -40,7 +41,7 @@ public class ContactsController {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private DepartmentService departmentService;
+    private ContactsService contactsService;
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public JsonResponse contacts(HttpServletRequest request, HttpServletResponse response) throws ECAuthException {
@@ -80,7 +81,7 @@ public class ContactsController {
     public JsonResponse departments(HttpServletRequest request, HttpServletResponse response) throws ECAuthException {
         JsonResponse res = new JsonResponse();
         try {
-            List<Department> top = departmentService.getTree();
+            List<Department> top = contactsService.getContactsByAllDepartment();
             res.setResponse(top);
         } catch (Exception e) {
             e.printStackTrace();

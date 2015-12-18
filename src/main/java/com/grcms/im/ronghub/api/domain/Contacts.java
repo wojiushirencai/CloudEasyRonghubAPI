@@ -11,6 +11,8 @@ package com.grcms.im.ronghub.api.domain;
 public class Contacts {
     private String userId;
     private String username;
+    private String firstname;
+    private String lastname;
     private String phoneNumber;
     private String portraitUri;
     private String token;
@@ -53,5 +55,13 @@ public class Contacts {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 }
