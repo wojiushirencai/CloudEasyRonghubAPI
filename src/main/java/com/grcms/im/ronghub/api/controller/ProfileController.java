@@ -64,7 +64,6 @@ public class ProfileController {
             profile.setLastname(member.getLastname());
             profile.setFirstname(member.getFirstname());
             profile.setPortraitUri(member.getPortraitUri());
-
             res.setResponse(profile);
         } catch (Exception e) {
             e.printStackTrace();

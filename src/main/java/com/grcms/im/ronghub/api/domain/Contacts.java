@@ -15,7 +15,6 @@ public class Contacts {
     private String lastname;
     private String phoneNumber;
     private String portraitUri;
-    private String token;
 
     public String getUserId() {
         return userId;
@@ -49,19 +48,19 @@ public class Contacts {
         this.portraitUri = portraitUri;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public String getFirstname() {
         return firstname;
     }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 }

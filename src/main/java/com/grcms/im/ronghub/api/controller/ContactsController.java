@@ -62,7 +62,6 @@ public class ContactsController {
                 contacts.setPortraitUri(m.getPortraitUri());
                 for(RonghubDetail detail : details) {
                     if(contacts.getUserId().equals(detail.getUserId())) {
-                        contacts.setToken(detail.getToken());
                         contactses.add(contacts);
                         break;
                     }

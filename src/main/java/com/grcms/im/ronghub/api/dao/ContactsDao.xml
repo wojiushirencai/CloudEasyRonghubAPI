@@ -16,7 +16,6 @@
             <result property="lastname" column="LASTNAME"/>
             <result property="phoneNumber" column="PHONE_NUMBER"/>
             <result property="portraitUri" column="PORTRAIT_URI"/>
-            <result property="token" column="TOKEN"/>
         </collection>
     </resultMap>
 
@@ -30,18 +29,13 @@
         m.firstname,
         m.lastname,
         m.phone_number,
-        m.portrait_uri,
-        r.token
+        m.portrait_uri
         FROM
             ec_department d
         JOIN
             ec_members m
-        JOIN
-            ec_ronghub_api r
         ON
             m.department_id = d.id
-        AND
-            r.user_id = m.id
     </select>
 
 </mapper>
