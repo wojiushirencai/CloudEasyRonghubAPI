@@ -60,6 +60,9 @@ public class ContactsController {
                 contacts.setUsername(m.getLoginId());
                 contacts.setPhoneNumber(m.getPhoneNumber());
                 contacts.setPortraitUri(m.getPortraitUri());
+                contacts.setCreateTime(m.getRegisterTime());
+                contacts.setUpdateTime(m.getUpdateTime());
+                contacts.setDeleteTime(m.getDeleteTime());
                 for(RonghubDetail detail : details) {
                     if(contacts.getUserId().equals(detail.getUserId())) {
                         contactses.add(contacts);
