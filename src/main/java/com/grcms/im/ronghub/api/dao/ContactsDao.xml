@@ -22,6 +22,7 @@
         </collection>
     </resultMap>
 
+
     <!-- GET BY ID -->
     <select id="getMembersByAllDepartments" resultMap="domainType">
         SELECT
@@ -44,4 +45,34 @@
             m.department_id = d.id
     </select>
 
+    
+    <resultMap id="contactType" type="com.grcms.im.ronghub.api.domain.Contacts">
+        <id property="userId" column="USER_ID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="firstname" column="FIRSTNAME"/>
+        <result property="lastname" column="LASTNAME"/>
+        <result property="phoneNumber" column="PHONE_NUMBER"/>
+        <result property="portraitUri" column="PORTRAIT_URI"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+        <result property="deleteTime" column="DELETE_TIME"/>
+    </resultMap>
+
+    <!-- GET BY ID -->
+    <select id="getAllContacts" resultMap="contactType">
+        SELECT
+        m.id as user_id,
+        m.login_id as username,
+        m.firstname,
+        m.lastname,
+        m.phone_number,
+        m.portrait_uri,
+        m.register_time as create_time,
+        m.update_time,
+        m.delete_time
+        FROM
+        ec_members m
+        ORDER BY
+        m.register_time
+    </select>
 </mapper>

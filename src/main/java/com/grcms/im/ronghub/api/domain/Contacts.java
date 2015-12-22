@@ -17,9 +17,9 @@ public class Contacts {
     private String lastname;
     private String phoneNumber;
     private String portraitUri;
-    private Date createTime;
-    private Date updateTime;
-    private Date deleteTime;
+    private String createTime;
+    private String updateTime;
+    private String deleteTime;
 
     public String getUserId() {
         return userId;
@@ -69,27 +69,27 @@ public class Contacts {
         this.lastname = lastname;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
-    public Date getDeleteTime() {
+    public String getDeleteTime() {
         return deleteTime;
     }
 
-    public void setDeleteTime(Date deleteTime) {
+    public void setDeleteTime(String deleteTime) {
         this.deleteTime = deleteTime;
     }
 }

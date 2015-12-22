@@ -1,7 +1,9 @@
 package com.grcms.im.ronghub.api.dao.impl;
 
 import com.grcms.core.exception.ECDepartmentException;
+import com.grcms.frontend.exception.ECMemberException;
 import com.grcms.im.ronghub.api.dao.ContactsDao;
+import com.grcms.im.ronghub.api.domain.Contacts;
 import com.grcms.management.user.domain.Department;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -24,6 +26,12 @@ public class ContactsDaoImpl implements ContactsDao {
     @Override
     public List<Department> getMembersByAllDepartments() throws ECDepartmentException {
         String intactName = className + "getMembersByAllDepartments";
+        return sqlSession.selectList(intactName);
+    }
+
+    @Override
+    public List<Contacts> getAllContacts() throws ECMemberException {
+        String intactName = className + "getAllContacts";
         return sqlSession.selectList(intactName);
     }
 }

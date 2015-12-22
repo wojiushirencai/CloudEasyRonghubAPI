@@ -4,7 +4,9 @@
 package com.grcms.im.ronghub.api.service.impl;
 
 import com.grcms.core.exception.ECDepartmentException;
+import com.grcms.frontend.exception.ECMemberException;
 import com.grcms.im.ronghub.api.dao.ContactsDao;
+import com.grcms.im.ronghub.api.domain.Contacts;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.im.ronghub.api.service.ContactsService;
 import com.grcms.management.user.domain.Department;
@@ -28,5 +30,10 @@ public class ContactsServiceImpl implements ContactsService {
     @Override
     public List<Department> getContactsByAllDepartment() throws ECAttendenceException, ECDepartmentException {
         return contactsDao.getMembersByAllDepartments();
+    }
+
+    @Override
+    public List<Contacts> getContacts() throws ECMemberException {
+        return contactsDao.getAllContacts();
     }
 }
