@@ -24,4 +24,8 @@ public interface ContactsService {
 
     List<Contacts> getContacts() throws ECMemberException;
 
+    Contacts findById(String id) throws ECMemberException;
+
+    Contacts update(Contacts contacts) throws ECMemberException;
+
 }

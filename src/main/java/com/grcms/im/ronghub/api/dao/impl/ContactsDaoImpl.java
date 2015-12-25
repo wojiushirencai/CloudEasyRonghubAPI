@@ -34,4 +34,17 @@ public class ContactsDaoImpl implements ContactsDao {
         String intactName = className + "getAllContacts";
         return sqlSession.selectList(intactName);
     }
+
+    @Override
+    public Contacts getById(String id) throws ECMemberException {
+        String intactName = className + "getById";
+        return sqlSession.selectOne(intactName, id);
+    }
+
+    @Override
+    public Contacts updateContacts(Contacts contacts) throws ECMemberException {
+        String intactName = className + "updateContacts";
+        sqlSession.update(intactName,contacts);
+        return  contacts;
+    }
 }

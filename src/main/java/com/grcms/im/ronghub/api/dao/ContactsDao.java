@@ -32,4 +32,19 @@ public interface ContactsDao{
      */
     List<Contacts> getAllContacts() throws ECMemberException;
 
+    /**
+     * get by id
+     * @param id
+     * @return
+     * @throws ECMemberException
+     */
+    Contacts getById(String id) throws ECMemberException;
+
+    /**
+     * Update contacts profile
+     * @param contacts
+     * @return
+     * @throws ECMemberException
+     */
+    Contacts updateContacts(Contacts contacts) throws ECMemberException;
 }

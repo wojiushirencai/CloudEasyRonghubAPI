@@ -10,6 +10,7 @@ public class Profile {
     private String firstname;
     private String lastname;
     private String portraitUri;
+    private String remark;
 
     public String getUserId() {
         return userId;
@@ -57,5 +58,13 @@ public class Profile {
 
     public void setPortraitUri(String portraitUri) {
         this.portraitUri = portraitUri;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -45,7 +45,7 @@
             m.department_id = d.id
     </select>
 
-    
+
     <resultMap id="contactType" type="com.grcms.im.ronghub.api.domain.Contacts">
         <id property="userId" column="USER_ID"/>
         <result property="username" column="USERNAME"/>
@@ -53,6 +53,7 @@
         <result property="lastname" column="LASTNAME"/>
         <result property="phoneNumber" column="PHONE_NUMBER"/>
         <result property="portraitUri" column="PORTRAIT_URI"/>
+        <result property="remark" column="REMARK"/>
         <result property="createTime" column="CREATE_TIME"/>
         <result property="updateTime" column="UPDATE_TIME"/>
         <result property="deleteTime" column="DELETE_TIME"/>
@@ -67,6 +68,7 @@
         m.lastname,
         m.phone_number,
         m.portrait_uri,
+        m.remark,
         m.register_time as create_time,
         m.update_time,
         m.delete_time
@@ -75,4 +77,35 @@
         ORDER BY
         m.register_time
     </select>
+
+    <select id="getById" resultMap="contactType" parameterType="string">
+SELECT
+        m.id as user_id,
+        m.login_id as username,
+        m.firstname,
+        m.lastname,
+        m.phone_number,
+        m.portrait_uri,
+        m.remark,
+        m.register_time as create_time,
+        m.update_time,
+        m.delete_time
+        FROM
+        ec_members m
+        WHERE
+        m.id = #{value}
+    </select>
+    
+    <update id="updateContacts" parameterType="com.grcms.im.ronghub.api.domain.Contacts">
+    UPDATE
+    ec_members
+    SET
+    firstname = #{contacts.firstname},
+    lastname = #{contacts.lastname},
+    phone_number = #{contacts.phoneNumber},
+    remark = #{contacts.remark}
+    WHERE
+    id = #{contacts.id}
+
+    </update>
 </mapper>

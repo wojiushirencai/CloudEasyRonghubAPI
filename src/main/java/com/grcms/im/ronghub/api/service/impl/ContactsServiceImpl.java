@@ -36,4 +36,14 @@ public class ContactsServiceImpl implements ContactsService {
     public List<Contacts> getContacts() throws ECMemberException {
         return contactsDao.getAllContacts();
     }
+
+    @Override
+    public Contacts findById(String id) throws ECMemberException {
+        return contactsDao.getById(id);
+    }
+
+    @Override
+    public Contacts update(Contacts contacts) throws ECMemberException {
+        return contactsDao.updateContacts(contacts);
+    }
 }

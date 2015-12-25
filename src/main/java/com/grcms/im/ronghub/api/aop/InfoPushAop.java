@@ -7,10 +7,7 @@ import com.grcms.frontend.domain.Member;
 import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.service.impl.RonghubApiBasic;
 import io.rong.ApiHttpClient;
-import io.rong.models.FormatType;
-import io.rong.models.Message;
-import io.rong.models.SdkHttpResult;
-import io.rong.models.TxtMessage;
+import io.rong.models.*;
 import org.aopalliance.intercept.Joinpoint;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -30,6 +27,7 @@ import java.util.List;
 @Aspect
 public class InfoPushAop {
     private static final Logger logger = Logger.getLogger(InfoPushAop.class);
+    public static final String PUSH_TITLE = "es:cmdRefreshDaily";
     @Autowired
     private MemberService memberService;
 
@@ -77,7 +75,7 @@ public class InfoPushAop {
                                 RonghubApiBasic.getAppSecret(),
                                 "0",
                                 ids,
-                                new TxtMessage(info.getName()),
+                                new TxtMessage(info.getName(),PUSH_TITLE),
                                 info.getName(),
                                 CommonUtility.formateDate(new Date(), "yyyy.MM.dd HH:ss"),
                                 FormatType.json
