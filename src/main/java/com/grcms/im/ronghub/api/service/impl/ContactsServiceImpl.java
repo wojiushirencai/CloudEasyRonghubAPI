@@ -7,6 +7,7 @@ import com.grcms.core.exception.ECDepartmentException;
 import com.grcms.frontend.exception.ECMemberException;
 import com.grcms.im.ronghub.api.dao.ContactsDao;
 import com.grcms.im.ronghub.api.domain.Contacts;
+import com.grcms.im.ronghub.api.domain.ContactsGroup;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.im.ronghub.api.service.ContactsService;
 import com.grcms.management.user.domain.Department;
@@ -28,7 +29,7 @@ public class ContactsServiceImpl implements ContactsService {
     private ContactsDao contactsDao;
 
     @Override
-    public List<Department> getContactsByAllDepartment() throws ECAttendenceException, ECDepartmentException {
+    public List<ContactsGroup> getContactsByAllDepartment() throws ECAttendenceException, ECDepartmentException {
         return contactsDao.getMembersByAllDepartments();
     }
 
@@ -45,5 +46,10 @@ public class ContactsServiceImpl implements ContactsService {
     @Override
     public Contacts update(Contacts contacts) throws ECMemberException {
         return contactsDao.updateContacts(contacts);
+    }
+
+    @Override
+    public void updatePortrait(String userId, String portraitUrl) throws ECMemberException {
+        contactsDao.updatePortrait(userId,portraitUrl);
     }
 }

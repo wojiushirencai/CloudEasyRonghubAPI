@@ -6,6 +6,7 @@ import com.grcms.frontend.domain.Member;
 import com.grcms.frontend.exception.ECMemberException;
 import com.grcms.im.ronghub.api.domain.Attendence;
 import com.grcms.im.ronghub.api.domain.Contacts;
+import com.grcms.im.ronghub.api.domain.ContactsGroup;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.management.user.domain.Department;
 
@@ -23,7 +24,7 @@ public interface ContactsDao{
      * @return
      * @throws ECAttendenceException
      */
-    List<Department> getMembersByAllDepartments() throws ECDepartmentException;
+    List<ContactsGroup> getMembersByAllDepartments() throws ECDepartmentException;
 
     /**
      * Get all contacts
@@ -47,4 +48,12 @@ public interface ContactsDao{
      * @throws ECMemberException
      */
     Contacts updateContacts(Contacts contacts) throws ECMemberException;
+
+    /**
+     * Update portrait
+     * @param userId
+     * @param portraitUrl
+     * @throws ECMemberException
+     */
+    void updatePortrait(String userId,String portraitUrl) throws ECMemberException;
 }

@@ -4,8 +4,10 @@ import com.grcms.core.exception.ECAuthException;
 import com.grcms.core.response.JsonResponse;
 import com.grcms.frontend.service.MemberService;
 import com.grcms.im.ronghub.api.domain.Contacts;
+import com.grcms.im.ronghub.api.domain.ContactsGroup;
 import com.grcms.im.ronghub.api.service.AuthService;
 import com.grcms.im.ronghub.api.service.ContactsService;
+import com.grcms.im.ronghub.api.util.ApiUtil;
 import com.grcms.management.user.domain.Department;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,9 @@ public class ContactsController {
                 res.setResponse("No data");
                 return res;
             }
+            for(Contacts c : contacts) {
+                c.setPortraitUri(ApiUtil.generatePortraitUrl(request,c.getPortraitUri()));
+            }
             res.setResponse(contacts);
 
         } catch (Exception e) {
@@ -59,7 +64,12 @@ public class ContactsController {
     public JsonResponse departments(HttpServletRequest request, HttpServletResponse response) throws ECAuthException {
         JsonResponse res = new JsonResponse();
         try {
-            List<Department> top = contactsService.getContactsByAllDepartment();
+            List<ContactsGroup> top = contactsService.getContactsByAllDepartment();
+            for(ContactsGroup cg:top) {
+                for(Contacts c: cg.getContacts()) {
+                    c.setPortraitUri(ApiUtil.generatePortraitUrl(request,c.getPortraitUri()));
+                }
+            }
             res.setResponse(top);
         } catch (Exception e) {
             e.printStackTrace();

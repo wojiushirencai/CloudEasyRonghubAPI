@@ -100,12 +100,23 @@ SELECT
     UPDATE
     ec_members
     SET
-    firstname = #{contacts.firstname},
-    lastname = #{contacts.lastname},
-    phone_number = #{contacts.phoneNumber},
-    remark = #{contacts.remark}
+    firstname = #{firstname},
+    lastname = #{lastname},
+    phone_number = #{phoneNumber},
+    remark = #{remark},
+    update_time = now()
     WHERE
-    id = #{contacts.id}
+    id = #{userId}
 
+    </update>
+
+    <update id="updatePortrait" parameterType="map">
+        UPDATE
+        ec_members
+        SET
+        portrait_uri = #{portraitUrl},
+        update_time = now()
+        WHERE
+        id = #{userId}
     </update>
 </mapper>

@@ -20,6 +20,7 @@ public class Contacts {
     private String createTime;
     private String updateTime;
     private String deleteTime;
+    private String remark;
 
     public String getUserId() {
         return userId;
@@ -91,5 +92,13 @@ public class Contacts {
 
     public void setDeleteTime(String deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

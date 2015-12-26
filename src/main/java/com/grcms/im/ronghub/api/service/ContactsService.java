@@ -5,6 +5,7 @@ import com.grcms.core.util.Page;
 import com.grcms.frontend.exception.ECMemberException;
 import com.grcms.im.ronghub.api.domain.Attendence;
 import com.grcms.im.ronghub.api.domain.Contacts;
+import com.grcms.im.ronghub.api.domain.ContactsGroup;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.management.user.domain.Department;
 
@@ -20,12 +21,14 @@ public interface ContactsService {
      * @return
      * @throws ECAttendenceException
      */
-    List<Department> getContactsByAllDepartment() throws ECAttendenceException, ECDepartmentException;
+    List<ContactsGroup> getContactsByAllDepartment() throws ECAttendenceException, ECDepartmentException;
 
     List<Contacts> getContacts() throws ECMemberException;
 
     Contacts findById(String id) throws ECMemberException;
 
     Contacts update(Contacts contacts) throws ECMemberException;
+
+    void updatePortrait(String userId,String portraitUrl) throws ECMemberException;
 
 }
