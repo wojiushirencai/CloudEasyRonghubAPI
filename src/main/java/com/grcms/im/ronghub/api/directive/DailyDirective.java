@@ -87,7 +87,7 @@ public class DailyDirective extends BaseDirective<Daily> {
             try {
                 condition.setMemberId(memberId);
                 if (CommonUtility.isNonEmpty(updateDate)) {
-                    condition.setUpdateDate(CommonUtility.parseDate(updateDate));
+                    condition.setUpdateDate(CommonUtility.parseDate(updateDate,"yyyy-MM-dd"));
                 }
                 condition.setLastname(lastname);
                 condition.setFirstname(firstname);

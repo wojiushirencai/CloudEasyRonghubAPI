@@ -77,7 +77,7 @@ public class InfoPushAop {
                                 ids,
                                 new TxtMessage(info.getName(),PUSH_TITLE),
                                 info.getName(),
-                                CommonUtility.formateDate(new Date(), "yyyy.MM.dd HH:ss"),
+                                PUSH_TITLE,
                                 FormatType.json
                         );
                         if (sdkHttpResult.getHttpCode() == 200) {
