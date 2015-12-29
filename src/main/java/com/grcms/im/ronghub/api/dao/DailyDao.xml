@@ -110,7 +110,7 @@
                 MEMBER_ID = #{condition.memberId}
             </if>
             <if test="condition != null and condition.departmentId != null">
-                DEPARTMENT_ID = #{condition.departmentId}
+               AND DEPARTMENT_ID = #{condition.departmentId}
             </if>
         </where>
     </sql>

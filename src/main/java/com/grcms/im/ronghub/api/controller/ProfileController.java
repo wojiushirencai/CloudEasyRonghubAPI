@@ -61,7 +61,7 @@ public class ProfileController {
             profile.setPhoneNumber(contacts.getPhoneNumber());
             profile.setLastname(contacts.getLastname());
             profile.setFirstname(contacts.getFirstname());
-            profile.setPortraitUri(contacts.getPortraitUri());
+            profile.setPortraitUri(ApiUtil.generatePortraitUrl(request,contacts.getPortraitUri()));
             res.setResponse(profile);
         } catch (Exception e) {
             e.printStackTrace();
