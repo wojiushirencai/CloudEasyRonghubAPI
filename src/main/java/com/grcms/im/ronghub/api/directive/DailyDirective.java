@@ -22,92 +22,99 @@ import java.util.Map;
 
 /**
  * CMSMODEL
- * 
+ *
  * @author jiepeng
- * 
  */
 @Component
 public class DailyDirective extends BaseDirective<Daily> {
-	/**
-	 * Logger for this class
-	 */
-	private static final Logger logger = Logger.getLogger(DailyDirective.class);
-	@Autowired
-	private DailyService dailyService;
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = Logger.getLogger(DailyDirective.class);
+    @Autowired
+    private DailyService dailyService;
 
-	@Override
-	protected Integer count(Map params,Map<String,Object> envParams) {
-		return null;
-	}
+    @Override
+    protected Integer count(Map params, Map<String, Object> envParams) {
+        return null;
+    }
 
-	@Override
-	protected List<Daily> tree(Map params,Map<String,Object> envParams) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    protected List<Daily> tree(Map params, Map<String, Object> envParams) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	protected Daily field(Map params,Map<String,Object> envParams) {
-		// 会员ID信息
-		String id = FreemarkerTemplateUtility.getStringValueFromParams(params,
-				"id");
-		logger.debug("[id] ==> " + id);
-		try {
-			// 查询ID信息
-			if (CommonUtility.isNonEmpty(id)) {
-				Daily daily = dailyService.findById(id);
-				return daily;
-			}
-			
-		}  catch (ECDailyException e) {
-			e.printStackTrace();
-		}
+    @Override
+    protected Daily field(Map params, Map<String, Object> envParams) {
+        // 会员ID信息
+        String id = FreemarkerTemplateUtility.getStringValueFromParams(params,
+                "id");
+        logger.debug("[id] ==> " + id);
+        try {
+            // 查询ID信息
+            if (CommonUtility.isNonEmpty(id)) {
+                Daily daily = dailyService.findById(id);
+                return daily;
+            }
 
-		return null;
-	}
+        } catch (ECDailyException e) {
+            e.printStackTrace();
+        }
 
-	@Override
-	protected List<Daily> list(Map params, String filter, String order, String sort,
-			boolean pageable, Page<Daily> pager,Map<String,Object> envParams) {
-		Daily condition = null;
-		if(CommonUtility.isNonEmpty(filter)) {
-			condition = CommonUtility.toObject(Daily.class, filter, "yyyy-MM-dd");
-		}else{
-			condition = new Daily();
-		}
-		
-		if (condition.getId() != null && !CommonUtility.isNonEmpty(condition.getId())) {
-			condition.setId(null);
-		}
-		String memberId = FreemarkerTemplateUtility.getStringValueFromParams(params,"userId");
-		Integer departmentId = FreemarkerTemplateUtility.getIntValueFromParams(params, "departmentId");
-		if(pageable) {
-			try {
-				condition.setMemberId(memberId);
-				condition.setDepartmentId(departmentId);
-				pager = dailyService.findPage(pager, condition);
-			} catch (ECDailyException e) {
-				e.printStackTrace();
-			}
-			return pager == null ?null:pager.getDatas();
-		}else{
-			try {
-				if(CommonUtility.isNonEmpty(memberId)) {
-					return dailyService.findByMemberId(memberId);
-				}
-			} catch (ECDailyException e) {
-				e.printStackTrace();
-			}
-		}
-		// 查询列表
-		try {
-			List<Daily> dailyList = dailyService.findAll();
-			logger.debug("==> list length [" + dailyList.size() + "]");
-			return dailyList;
-		} catch (ECDailyException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+        return null;
+    }
+
+    @Override
+    protected List<Daily> list(Map params, String filter, String order, String sort,
+                               boolean pageable, Page<Daily> pager, Map<String, Object> envParams) {
+        Daily condition = null;
+        if (CommonUtility.isNonEmpty(filter)) {
+            condition = CommonUtility.toObject(Daily.class, filter, "yyyy-MM-dd");
+        } else {
+            condition = new Daily();
+        }
+
+        if (condition.getId() != null && !CommonUtility.isNonEmpty(condition.getId())) {
+            condition.setId(null);
+        }
+        String memberId = FreemarkerTemplateUtility.getStringValueFromParams(params, "userId");
+        Integer departmentId = FreemarkerTemplateUtility.getIntValueFromParams(params, "departmentId");
+        String updateDate = FreemarkerTemplateUtility.getStringValueFromParams(params, "updateDate");
+        String firstname = FreemarkerTemplateUtility.getStringValueFromParams(params, "firstname");
+        String lastname = FreemarkerTemplateUtility.getStringValueFromParams(params, "lastname");
+        if (pageable) {
+            try {
+                condition.setMemberId(memberId);
+                if (CommonUtility.isNonEmpty(updateDate)) {
+                    condition.setUpdateDate(CommonUtility.parseDate(updateDate));
+                }
+                condition.setLastname(lastname);
+                condition.setFirstname(firstname);
+                condition.setDepartmentId(departmentId);
+                pager = dailyService.findPage(pager, condition);
+            } catch (ECDailyException e) {
+                e.printStackTrace();
+            }
+            return pager == null ? null : pager.getDatas();
+        } else {
+            try {
+                if (CommonUtility.isNonEmpty(memberId)) {
+                    return dailyService.findByMemberId(memberId);
+                }
+            } catch (ECDailyException e) {
+                e.printStackTrace();
+            }
+        }
+        // 查询列表
+        try {
+            List<Daily> dailyList = dailyService.findAll();
+            logger.debug("==> list length [" + dailyList.size() + "]");
+            return dailyList;
+        } catch (ECDailyException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

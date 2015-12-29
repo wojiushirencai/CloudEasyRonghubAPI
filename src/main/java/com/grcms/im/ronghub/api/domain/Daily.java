@@ -15,10 +15,14 @@ public class Daily {
     private String id; //UUID
     private String title;
     private Date updateTime;
+    private Date updateDate;
     private String updateTimeStr;
     private String content;
     private String memberId;
+    private String firstname;
+    private String lastname;
     private Integer departmentId;
+    private String departmentName;
 
     public String getId() {
         return id;
@@ -74,5 +78,37 @@ public class Daily {
 
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 }

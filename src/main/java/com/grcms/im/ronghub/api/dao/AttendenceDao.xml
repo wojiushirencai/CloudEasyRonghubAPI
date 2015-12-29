@@ -6,9 +6,11 @@
 <mapper namespace="com.grcms.im.ronghub.api.dao.impl.AttendenceDaoImpl">
 
     <!-- MODEL FIELD TYPE -->
-    <resultMap type="com.grcms.im.ronghub.api.domain.Attendence" id="attendenceType">
+    <resultMap type="com.grcms.im.ronghub.api.domain.Attendency" id="attendenceType">
         <id property="id" column="ID"/>
         <result property="memberId" column="MEMBER_ID"/>
+        <result property="firstname" column="FIRSTNAME"/>
+        <result property="lastname" column="LASTNAME"/>
         <result property="location" column="LOCATION"/>
         <result property="remark" column="REMARK"/>
         <result property="updateDate" column="UPDATE_DATE"/>
@@ -33,7 +35,7 @@
 	</sql>
 
     <!-- INSERT -->
-    <insert id="insert" parameterType="com.grcms.im.ronghub.api.domain.Attendence">
+    <insert id="insert" parameterType="com.grcms.im.ronghub.api.domain.Attendency">
         INSERT INTO
         <include refid="table"/>
         (
@@ -52,7 +54,7 @@
     </insert>
 
     <!-- UDPDATE NODE -->
-    <update id="update" parameterType="com.grcms.im.ronghub.api.domain.Attendence">
+    <update id="update" parameterType="com.grcms.im.ronghub.api.domain.Attendency">
         UPDATE
         <include refid="table"/>
         SET
@@ -67,50 +69,61 @@
         ID = #{id}
     </update>
 
+    <sql id="joinQuery">
+SELECT
+        a.ID,
+        a.MEMBER_ID,
+        a.LOCATION,
+        a.REMARK,
+        a.UPDATE_DATE,
+        a.UPDATE_TIME,
+        a.LATITUDE,
+        a.LONGTITUDE,
+        m.FIRSTNAME,
+        m.LASTNAME
+        FROM
+        ec_attendence a
+        JOIN
+        ec_members m
+        ON
+        a.MEMBER_ID = m.id
+    </sql>
     <!-- GET BY ID -->
     <select id="getById" parameterType="String" resultMap="attendenceType">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+      <include refid="joinQuery"/>
         WHERE
-        ID = #{id}
+        a.ID = #{id}
     </select>
 
     <!-- GET BY USER ID -->
     <select id="getByMemberId" parameterType="String" resultMap="attendenceType">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         WHERE
-        MEMBER_ID = #{value}
+        a.MEMBER_ID = #{value}
     </select>
 
     <!-- count by uri -->
     <select id="getTotalRecord" resultType="Integer">
         SELECT
-        count(id)
-        FROM
-        <include refid="table"/>
+        count(a.id)
+       FROM
+        ec_attendence a
+        JOIN
+        ec_members m
+        ON
+        a.MEMBER_ID = m.id
     </select>
 
     <!-- 查找所有 -->
     <select id="getAll" resultMap="attendenceType">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         ORDER BY
         UPDATE_TIME DESC
     </select>
 
     <!-- GET BY PAGE -->
     <select id="getByPage" resultMap="attendenceType" parameterType="map">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         ORDER BY
         UPDATE_TIME DESC
         LIMIT #{index},#{pagesize}
@@ -119,31 +132,41 @@
     <sql id="conditons">
         <where>
             <if test="condition != null and condition.memberId != null">
-                MEMBER_ID = #{condition.memberId}
+                a.MEMBER_ID = #{condition.memberId}
             </if>
             <if test="condition != null and condition.updateDate != null">
-                AND UPDATE_DATE = #{condition.updateDate}
+                AND a.UPDATE_DATE = #{condition.updateDate}
             </if>
             <if test="condition != null and condition.updateTime != null">
-                AND UPDATE_TIME > #{condition.updateTime}
+                AND a.UPDATE_TIME > #{condition.updateTime}
+            </if>
+            <if test="condition != null and condition.lastname != null">
+                AND m.LASTNAME = #{condition.lastname}
+            </if>
+            <if test="condition != null and condition.firstname != null">
+                AND m.firstname = #{condition.firstname}
+            </if>
+            <if test="condition != null and condition.departmentId != null">
+                AND m.department_id = #{condition.departmentId}
             </if>
         </where>
     </sql>
 
     <select id="getTotalRecordByCondition" resultType="Integer" parameterType="map">
         SELECT
-        count(id)
+        count(a.id)
         FROM
-        <include refid="table"/>
+        ec_attendence a
+        JOIN
+        ec_members m
+        ON
+        a.MEMBER_ID = m.id
         <include refid="conditons"/>
     </select>
 
     <!-- GET BY PAGE AND CONDITION-->
     <select id="getByPageAndCondition" resultMap="attendenceType" parameterType="map">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         <include refid="conditons"/>
         ORDER BY
         UPDATE_TIME DESC

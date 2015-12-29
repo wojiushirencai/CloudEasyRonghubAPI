@@ -11,15 +11,18 @@ import java.util.Date;
  * @Date:2015/11/13 0013
  * @Description: attendence will provide location information and so on.
  */
-public class Attendence {
+public class Attendency {
     private String id; //UUID
     private String memberId;
+    private String firstname;
+    private String lastname;
     private String location; //location information from client
     private String remark;
     private String updateDate;
     private String updateTime;
     private String latitude; //纬度
     private String longtitude; //经度
+    private Integer departmentId;
 
     public String getId() {
         return id;
@@ -83,5 +86,29 @@ public class Attendence {
 
     public void setLongtitude(String longtitude) {
         this.longtitude = longtitude;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 }

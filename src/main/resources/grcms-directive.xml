@@ -18,6 +18,7 @@
 	<!-- ##############核心模块标签对象############ -->
 	<!-- ######################################### -->
 	<bean id="ec_daily" class="com.grcms.im.ronghub.api.directive.DailyDirective" />
+	<bean id="ec_attendency" class="com.grcms.im.ronghub.api.directive.AttendencyDirective" />
 
 
 </beans>

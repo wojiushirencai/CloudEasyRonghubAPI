@@ -1,16 +1,13 @@
 package com.grcms.im.ronghub.api.controller;
 
-import com.grcms.content.core.exception.ECCMSInfoException;
 import com.grcms.content.core.exception.ECCMSNodeException;
 import com.grcms.core.exception.ECAuthException;
 import com.grcms.core.form.BasicForm;
 import com.grcms.core.response.JsonResponse;
 import com.grcms.core.util.ForwardUtility;
 import com.grcms.frontend.exception.ECMemberException;
-import com.grcms.frontend.service.MemberService;
-import com.grcms.im.ronghub.api.domain.Daily;
-import com.grcms.im.ronghub.api.service.DailyService;
-import com.grcms.im.ronghub.api.util.ApiUtil;
+import com.grcms.im.ronghub.api.domain.Attendency;
+import com.grcms.im.ronghub.api.service.AttendenceService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,15 +21,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @Controller
-@RequestMapping("/management/daily")
-public class DailyBackendController {
+@RequestMapping("/management/attendency")
+public class LocationBackendController {
     /**
      * Logger for this class
      */
     private static final Logger logger = Logger
-            .getLogger(DailyBackendController.class);
+            .getLogger(LocationBackendController.class);
     @Autowired
-    private DailyService dailyService;
+    private AttendenceService attendenceService;
 
     /**
      * @param request
@@ -45,14 +42,14 @@ public class DailyBackendController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String daily(HttpServletRequest request, HttpServletResponse response
             , @ModelAttribute("form") BasicForm form) throws ECAuthException, ECMemberException, ECCMSNodeException {
-        return ForwardUtility.forwardAdminView("daily/list_daily");
+        return ForwardUtility.forwardAdminView("attendency/list_attendency");
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String dailyData(HttpServletRequest request, HttpServletResponse response
             , @ModelAttribute("form") BasicForm form
-            , @ModelAttribute("daily") Daily daily) throws ECAuthException, ECMemberException, ECCMSNodeException {
-        return ForwardUtility.forwardAdminView("daily/data/data_json_daily");
+            , @ModelAttribute("attendency")Attendency attendency) throws ECAuthException, ECMemberException, ECCMSNodeException {
+        return ForwardUtility.forwardAdminView("attendency/data/data_json_attendency");
     }
 
     @RequestMapping(value = "/view", method = RequestMethod.GET)
@@ -60,7 +57,7 @@ public class DailyBackendController {
             , @RequestParam String id
             , @ModelAttribute("form") BasicForm form) throws ECAuthException, ECMemberException, ECCMSNodeException {
         request.setAttribute("id",id);
-        return ForwardUtility.forwardAdminView("daily/modal_daily_view");
+        return ForwardUtility.forwardAdminView("attendency/modal_attendency_view");
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -74,7 +71,7 @@ public class DailyBackendController {
             return jres;
         }
 
-        dailyService.deleteByIds(ids);
+        attendenceService.deleteByIds(ids);
         return jres;
     }
 

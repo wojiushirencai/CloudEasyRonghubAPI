@@ -3,11 +3,9 @@ package com.grcms.im.ronghub.api.controller;
 import com.grcms.common.util.CommonUtility;
 import com.grcms.core.exception.ECAuthException;
 import com.grcms.core.exception.ECParamsRequiredException;
-import com.grcms.core.form.BasicForm;
 import com.grcms.core.response.JsonResponse;
 import com.grcms.core.util.Page;
-import com.grcms.im.ronghub.api.domain.Attendence;
-import com.grcms.im.ronghub.api.domain.Daily;
+import com.grcms.im.ronghub.api.domain.Attendency;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.im.ronghub.api.service.AttendenceService;
 import com.grcms.im.ronghub.api.util.ApiUtil;
@@ -44,8 +42,8 @@ public class AttendenceController {
             , @RequestParam(required = false) String minTime
     ) throws ECAuthException, ECParamsRequiredException, ECAttendenceException {
         JsonResponse res = new JsonResponse();
-        Attendence condition = new Attendence();
-        Page<Attendence> pager = new Page<Attendence>();
+        Attendency condition = new Attendency();
+        Page<Attendency> pager = new Page<Attendency>();
         if(pageNum != null) {
             pager.setPageNum(pageNum);
         }
@@ -64,7 +62,7 @@ public class AttendenceController {
 
     @RequestMapping(value = "/attendence/location", method = RequestMethod.POST)
     public JsonResponse addLocation(HttpServletRequest request, HttpServletResponse response
-            , Attendence attendence) throws ECAuthException, ECParamsRequiredException, ECAttendenceException {
+            , Attendency attendence) throws ECAuthException, ECParamsRequiredException, ECAttendenceException {
         JsonResponse res = new JsonResponse();
 
         if (!CommonUtility.isNonEmpty(attendence.getLocation())) {

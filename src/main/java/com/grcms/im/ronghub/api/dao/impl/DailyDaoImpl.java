@@ -2,7 +2,6 @@ package com.grcms.im.ronghub.api.dao.impl;
 
 import com.grcms.basic.impl.MybatisBaseDaoImpl;
 import com.grcms.im.ronghub.api.dao.DailyDao;
-import com.grcms.im.ronghub.api.domain.Attendence;
 import com.grcms.im.ronghub.api.domain.Daily;
 import com.grcms.im.ronghub.api.exception.ECDailyException;
 import org.springframework.stereotype.Repository;

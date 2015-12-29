@@ -79,6 +79,7 @@ public class DailyController {
         daily.setContent(content);
         daily.setTitle(title);
         daily.setUpdateTime(new Date());
+        daily.setUpdateDate(new Date());
 
         Member member = memberService.findMemberById(userId);
         daily.setDepartmentId(member.getDepartment().getId());

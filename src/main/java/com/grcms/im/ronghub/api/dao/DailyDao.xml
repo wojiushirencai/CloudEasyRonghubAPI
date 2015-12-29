@@ -10,9 +10,13 @@
         <id property="id" column="ID"/>
         <result property="title" column="TITLE"/>
         <result property="updateTime" column="UPDATE_TIME"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
         <result property="content" column="CONTENT"/>
         <result property="memberId" column="MEMBER_ID"/>
+        <result property="firstname" column="FIRSTNAME"/>
+        <result property="lastname" column="LASTNAME"/>
         <result property="departmentId" column="DEPARTMENT_ID"/>
+        <result property="departmentName" column="DEPARTMENT_NAME"/>
     </resultMap>
 
     <!-- 表名 -->
@@ -25,6 +29,7 @@
 		CONTENT,
 		MEMBER_ID,
 		UPDATE_TIME,
+		UPDATE_DATE,
 		DEPARTMENT_ID
 	</sql>
 
@@ -41,6 +46,7 @@
         #{content},
         #{memberId},
         #{updateTime},
+        #{updateDate},
         #{departmentId}
         )
     </insert>
@@ -52,53 +58,70 @@
         SET
         TITLE = #{title},
         CONTENT = #{content},
-        UPDATE_TIME = #{updateTime}
+        UPDATE_TIME = #{updateTime},
+        UPDATE_Date = #{updateDate},
         WHERE
         ID = #{id}
     </update>
 
+    <sql id="joinQuery">
+    SELECT
+        d.ID,
+		d.TITLE,
+		d.CONTENT,
+		d.MEMBER_ID,
+		d.UPDATE_TIME,
+		d.UPDATE_DATE,
+		d.DEPARTMENT_ID,
+        m.FIRSTNAME,
+        m.LASTNAME,
+		dp.DEPARTMENT_NAME
+        FROM
+        EC_DAILY d
+        JOIN
+        ec_members m
+        JOIN
+        ec_department dp
+        ON
+        d.MEMBER_ID = m.id AND d.DEPARTMENT_ID = dp.id
+    </sql>
+
     <!-- GET BY ID -->
     <select id="getById" parameterType="String" resultMap="attendenceType">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         WHERE
-        ID = #{id}
+        d.ID = #{id}
     </select>
 
     <!-- GET BY USER ID -->
     <select id="getByMemberId" parameterType="String" resultMap="attendenceType">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         WHERE
-        MEMBER_ID = #{value}
+        d.MEMBER_ID = #{value}
     </select>
 
     <!-- count by uri -->
     <select id="getTotalRecord" resultType="Integer">
         SELECT
-        count(id)
-        FROM
-        <include refid="table"/>
+        count(d.id)
+       FROM
+        ec_daily d
+        JOIN
+        ec_members m
+        ON
+        d.MEMBER_ID = m.id
     </select>
 
     <!-- 查找所有 -->
     <select id="getAll" resultMap="attendenceType">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
+        ORDER BY
+        UPDATE_TIME DESC
     </select>
 
     <!-- GET BY PAGE -->
     <select id="getByPage" resultMap="attendenceType" parameterType="map">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         ORDER BY
         UPDATE_TIME DESC
         LIMIT #{index},#{pagesize}
@@ -107,19 +130,25 @@
     <sql id="condition">
         <where>
             <if test="condition != null and condition.memberId != null">
-                MEMBER_ID = #{condition.memberId}
+                d.MEMBER_ID = #{condition.memberId}
             </if>
             <if test="condition != null and condition.departmentId != null">
-               AND DEPARTMENT_ID = #{condition.departmentId}
+                AND d.DEPARTMENT_ID = #{condition.departmentId}
+            </if>
+            <if test="condition != null and condition.updateDate != null">
+                AND d.UPDATE_DATE = #{condition.updateDate}
+            </if>
+            <if test="condition != null and condition.lastname != null">
+                AND m.LASTNAME = #{condition.lastname}
+            </if>
+            <if test="condition != null and condition.firstname != null">
+                AND m.firstname = #{condition.firstname}
             </if>
         </where>
     </sql>
     <!-- GET BY PAGE AND CONDITION-->
     <select id="getByPageAndCondition" resultMap="attendenceType" parameterType="map">
-        SELECT
-        <include refid="fields"/>
-        FROM
-        <include refid="table"/>
+        <include refid="joinQuery"/>
         <include refid="condition"/>
         ORDER BY
         UPDATE_TIME DESC
@@ -128,9 +157,13 @@
 
     <select id="getTotalRecordByCondition" resultType="Integer" parameterType="map">
         SELECT
-        count(id)
+        count(d.id)
         FROM
-        <include refid="table"/>
+        ec_daily d
+        JOIN
+        ec_members m
+        ON
+        d.MEMBER_ID = m.id
         <include refid="condition"/>
     </select>
 

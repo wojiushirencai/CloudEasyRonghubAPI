@@ -3,8 +3,7 @@ package com.grcms.im.ronghub.api.service.impl;
 import com.grcms.common.util.CommonUtility;
 import com.grcms.core.util.Page;
 import com.grcms.im.ronghub.api.dao.AttendenceDao;
-import com.grcms.im.ronghub.api.domain.Attendence;
-import com.grcms.im.ronghub.api.domain.Daily;
+import com.grcms.im.ronghub.api.domain.Attendency;
 import com.grcms.im.ronghub.api.exception.ECAttendenceException;
 import com.grcms.im.ronghub.api.service.AttendenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +19,14 @@ public class AttendenceServiceImpl implements AttendenceService {
     @Autowired
     private AttendenceDao attendenceDao;
     @Override
-    public Attendence add(Attendence attendence) throws ECAttendenceException {
+    public Attendency add(Attendency attendence) throws ECAttendenceException {
         attendence.setId(CommonUtility.generateUUID(true));
         attendenceDao.insert(attendence);
         return attendence;
     }
 
     @Override
-    public Attendence update(Attendence attendence) throws ECAttendenceException {
+    public Attendency update(Attendency attendence) throws ECAttendenceException {
         attendenceDao.update(attendence);
         return attendence;
     }
@@ -43,37 +42,37 @@ public class AttendenceServiceImpl implements AttendenceService {
     }
 
     @Override
-    public Attendence findById(String id) throws ECAttendenceException {
+    public Attendency findById(String id) throws ECAttendenceException {
         return attendenceDao.getById(id);
     }
 
     @Override
-    public List<Attendence> findByMemberId(String memberId) throws ECAttendenceException {
+    public List<Attendency> findByMemberId(String memberId) throws ECAttendenceException {
         return attendenceDao.getByMemberId(memberId);
     }
 
     @Override
-    public List<Attendence> findAll() throws ECAttendenceException {
+    public List<Attendency> findAll() throws ECAttendenceException {
         return attendenceDao.getAll();
     }
 
     @Override
-    public Page<Attendence> findPage(Page<Attendence> page) throws ECAttendenceException {
+    public Page<Attendency> findPage(Page<Attendency> page) throws ECAttendenceException {
         Integer totalRecord = attendenceDao.getTotalRecord();
         if(null != totalRecord) {
             page.execute(totalRecord, page.getPageNum(), null);
-            List<Attendence> list = attendenceDao.getByPage(page.getStartIndex(), page.getPagesize());
+            List<Attendency> list = attendenceDao.getByPage(page.getStartIndex(), page.getPagesize());
             page.setDatas(list);
         }
         return page;
     }
 
     @Override
-    public Page<Attendence> findPage(Page<Attendence> page, Attendence condition) throws ECAttendenceException {
+    public Page<Attendency> findPage(Page<Attendency> page, Attendency condition) throws ECAttendenceException {
         Integer totalRecord = attendenceDao.getTotalRecordByCondition(condition);
         if(null != totalRecord) {
             page.execute(totalRecord, page.getPageNum(), null);
-            List<Attendence> list = attendenceDao.getByPageAndCondition(page.getStartIndex(), page.getPagesize(), condition);
+            List<Attendency> list = attendenceDao.getByPageAndCondition(page.getStartIndex(), page.getPagesize(), condition);
             page.setDatas(list);
         }
         return page;

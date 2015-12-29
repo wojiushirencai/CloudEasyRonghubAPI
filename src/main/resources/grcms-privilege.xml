@@ -12,4 +12,16 @@
 		<name>删除日报</name>
 		<url>/management/daily/delete</url>
 	</privilege>
+	<privilege>
+		<name>签到列表</name>
+		<url>/management/attendency</url>
+	</privilege>
+	<privilege>
+		<name>查看地图</name>
+		<url>/management/attendency/view</url>
+	</privilege>
+	<privilege>
+		<name>删除签到</name>
+		<url>/management/attendency/delete</url>
+	</privilege>
 </privilege-config>
