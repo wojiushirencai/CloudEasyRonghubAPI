@@ -75,8 +75,8 @@ public class InfoPushAop {
                                 RonghubApiBasic.getAppSecret(),
                                 "0",
                                 ids,
-                                new TxtMessage(info.getName(),PUSH_TITLE),
-                                info.getName(),
+                                new TxtMessage("公告:" + info.getName(),PUSH_TITLE),
+                                "公告:" + info.getName(),
                                 PUSH_TITLE,
                                 FormatType.json
                         );
