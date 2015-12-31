@@ -39,6 +39,11 @@ public class ContactsServiceImpl implements ContactsService {
     }
 
     @Override
+    public List<Contacts> getBySpecialTime(String specialTime) throws ECMemberException {
+        return contactsDao.getBySpecialTime(specialTime);
+    }
+
+    @Override
     public Contacts findById(String id) throws ECMemberException {
         return contactsDao.getById(id);
     }

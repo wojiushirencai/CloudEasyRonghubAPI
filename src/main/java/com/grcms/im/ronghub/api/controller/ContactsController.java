@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,12 +46,12 @@ public class ContactsController {
         JsonResponse res = new JsonResponse();
         try {
             List<Contacts> contacts = contactsService.getContacts();
-            if(null == contacts || contacts.size() == 0) {
+            if (null == contacts || contacts.size() == 0) {
                 res.setResponse("No data");
                 return res;
             }
-            for(Contacts c : contacts) {
-                c.setPortraitUri(ApiUtil.generatePortraitUrl(request,c.getPortraitUri()));
+            for (Contacts c : contacts) {
+                c.setPortraitUri(ApiUtil.generatePortraitUrl(request, c.getPortraitUri()));
             }
             res.setResponse(contacts);
 
@@ -65,12 +66,28 @@ public class ContactsController {
         JsonResponse res = new JsonResponse();
         try {
             List<ContactsGroup> top = contactsService.getContactsByAllDepartment();
-            for(ContactsGroup cg:top) {
-                for(Contacts c: cg.getContacts()) {
-                    c.setPortraitUri(ApiUtil.generatePortraitUrl(request,c.getPortraitUri()));
+            for (ContactsGroup cg : top) {
+                for (Contacts c : cg.getContacts()) {
+                    c.setPortraitUri(ApiUtil.generatePortraitUrl(request, c.getPortraitUri()));
                 }
             }
             res.setResponse(top);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/contacts/sync", method = RequestMethod.GET)
+    public JsonResponse syncContacts(HttpServletRequest request, HttpServletResponse response
+            , @RequestParam("specialTime") String specialTime) throws ECAuthException {
+        JsonResponse res = new JsonResponse();
+        try {
+            List<Contacts> contactsList = contactsService.getBySpecialTime(specialTime);
+            for (Contacts c : contactsList) {
+                c.setPortraitUri(ApiUtil.generatePortraitUrl(request, c.getPortraitUri()));
+            }
+            res.setResponse(contactsList);
         } catch (Exception e) {
             e.printStackTrace();
         }

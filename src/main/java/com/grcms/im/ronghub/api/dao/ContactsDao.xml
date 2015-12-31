@@ -54,6 +54,7 @@
         <result property="phoneNumber" column="PHONE_NUMBER"/>
         <result property="portraitUri" column="PORTRAIT_URI"/>
         <result property="remark" column="REMARK"/>
+        <result property="groupId" column="GROUP_ID"/>
         <result property="createTime" column="CREATE_TIME"/>
         <result property="updateTime" column="UPDATE_TIME"/>
         <result property="deleteTime" column="DELETE_TIME"/>
@@ -69,6 +70,7 @@
         m.phone_number,
         m.portrait_uri,
         m.remark,
+        m.department_id as group_id,
         m.register_time as create_time,
         m.update_time,
         m.delete_time
@@ -79,7 +81,26 @@
     </select>
 
     <select id="getById" resultMap="contactType" parameterType="string">
-SELECT
+    SELECT
+    m.id as user_id,
+    m.login_id as username,
+    m.firstname,
+    m.lastname,
+    m.phone_number,
+    m.portrait_uri,
+    m.remark,
+    m.department_id as group_id,
+    m.register_time as create_time,
+    m.update_time,
+    m.delete_time
+    FROM
+    ec_members m
+    WHERE
+    m.id = #{value}
+</select>
+
+    <select id="getBySpecialTime" resultMap="contactType" parameterType="string">
+        SELECT
         m.id as user_id,
         m.login_id as username,
         m.firstname,
@@ -87,15 +108,20 @@ SELECT
         m.phone_number,
         m.portrait_uri,
         m.remark,
+        m.department_id as group_id,
         m.register_time as create_time,
         m.update_time,
         m.delete_time
         FROM
         ec_members m
         WHERE
-        m.id = #{value}
+        m.delete_time > #{value}
+        OR
+        m.update_time > #{value}
+        OR
+        m.register_time > #{value}
     </select>
-    
+
     <update id="updateContacts" parameterType="com.grcms.im.ronghub.api.domain.Contacts">
     UPDATE
     ec_members

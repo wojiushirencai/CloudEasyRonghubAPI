@@ -38,6 +38,12 @@ public class ContactsDaoImpl implements ContactsDao {
     }
 
     @Override
+    public List<Contacts> getBySpecialTime(String specialTime) throws ECMemberException {
+        String intactName = className + "getBySpecialTime";
+        return sqlSession.selectList(intactName,specialTime);
+    }
+
+    @Override
     public Contacts getById(String id) throws ECMemberException {
         String intactName = className + "getById";
         return sqlSession.selectOne(intactName, id);

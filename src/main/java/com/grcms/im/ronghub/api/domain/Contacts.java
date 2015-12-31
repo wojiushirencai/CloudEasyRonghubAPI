@@ -20,6 +20,7 @@ public class Contacts {
     private String createTime;
     private String updateTime;
     private String deleteTime;
+    private Integer groupId;
     private String remark;
 
     public String getUserId() {
@@ -100,5 +101,13 @@ public class Contacts {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 }

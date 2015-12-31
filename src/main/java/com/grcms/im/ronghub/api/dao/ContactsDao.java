@@ -30,6 +30,14 @@ public interface ContactsDao{
     List<Contacts> getAllContacts() throws ECMemberException;
 
     /**
+     * get by special time
+     * @param specialTime
+     * @return
+     * @throws ECMemberException
+     */
+    List<Contacts> getBySpecialTime(String specialTime) throws ECMemberException;
+
+    /**
      * get by id
      * @param id
      * @return

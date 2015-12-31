@@ -126,7 +126,7 @@ public class ProfileController {
         JsonResponse res = new JsonResponse();
 
         try {
-            List<FileInfo> upload = UploadUtil.upload("/portrait", "utf-8", request);
+            List<FileInfo> upload = UploadUtil.upload("/portrait", "utf-8",true, request);
             FileInfo fi = upload.get(0);
             String portraitUrl = fi.getRealRelativePath();
             contactsService.updatePortrait(ApiUtil.getRequestUserId(request),portraitUrl);
