@@ -55,6 +55,7 @@
         <result property="portraitUri" column="PORTRAIT_URI"/>
         <result property="remark" column="REMARK"/>
         <result property="groupId" column="GROUP_ID"/>
+        <result property="groupName" column="GROUP_NAME"/>
         <result property="createTime" column="CREATE_TIME"/>
         <result property="updateTime" column="UPDATE_TIME"/>
         <result property="deleteTime" column="DELETE_TIME"/>
@@ -71,11 +72,16 @@
         m.portrait_uri,
         m.remark,
         m.department_id as group_id,
+        d.department_name as group_name,
         m.register_time as create_time,
         m.update_time,
         m.delete_time
         FROM
         ec_members m
+        JOIN
+        ec_department d
+        ON
+        m.department_id = d.id
         ORDER BY
         m.register_time
     </select>
@@ -90,11 +96,16 @@
     m.portrait_uri,
     m.remark,
     m.department_id as group_id,
+    d.department_name as group_name,
     m.register_time as create_time,
     m.update_time,
     m.delete_time
     FROM
     ec_members m
+    JOIN
+        ec_department d
+        ON
+        m.department_id = d.id
     WHERE
     m.id = #{value}
 </select>
@@ -109,11 +120,16 @@
         m.portrait_uri,
         m.remark,
         m.department_id as group_id,
+        d.department_name as group_name,
         m.register_time as create_time,
         m.update_time,
         m.delete_time
         FROM
         ec_members m
+        JOIN
+        ec_department d
+        ON
+        m.department_id = d.id
         WHERE
         m.delete_time > #{value}
         OR

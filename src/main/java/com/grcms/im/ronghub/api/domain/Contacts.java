@@ -21,6 +21,7 @@ public class Contacts {
     private String updateTime;
     private String deleteTime;
     private Integer groupId;
+    private String groupName;
     private String remark;
 
     public String getUserId() {
@@ -109,5 +110,13 @@ public class Contacts {
 
     public void setGroupId(Integer groupId) {
         this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }
