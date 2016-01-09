@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>items</key>
+  <array>
+    <dict>
+      <key>assets</key>
+      <array>
+        <dict>
+          <key>kind</key>
+          <string>software-package</string>
+          <key>url</key>
+          <string>https://120.24.14.180/uploadFiles/files/apps/ios/meishan_v2.0.8.ipa</string>
+        </dict>
+        <!-- display-image: the icon to display during download. -->
+        <dict>
+            <key>kind</key>
+            <string>display-image</string>
+            <!-- optional. icon needs shine effect applied. -->
+            <key>needs-shine</key>
+            <true/>
+            <key>url</key>
+            <string>https://120.24.14.180/uploadFiles/files/apps/ios/AppIcon_57.png</string>
+        </dict>
+        <!-- full-size-image: the large 512��512 icon used by iTunes. -->
+        <dict>
+                <key>kind</key>
+                <string>full-size-image</string>
+                <!-- optional.  one md5 hash for the entire file. -->
+                <key>md5</key>
+                <string>97E67F9DBED661C87115260DDCF811E9</string>
+                <key>needs-shine</key>
+                <true/>
+                <key>url</key>
+                <string>https://120.24.14.180/uploadFiles/files/apps/ios/AppIcon_512.png</string>
+        </dict>
+      </array>
+      <key>metadata</key>
+      <dict>
+        <key>bundle-identifier</key>
+<string>com.globalroam.cloudeasy</string>
+        <key>kind</key>
+        <string>software</string>
+        <key>title</key>
+        <string>眉山第一书记</string>
+      </dict>
+    </dict>
+  </array>
+</dict>
+</plist>
